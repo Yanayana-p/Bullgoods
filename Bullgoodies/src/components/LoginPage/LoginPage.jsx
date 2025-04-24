@@ -1,6 +1,7 @@
 import React from "react";
 import "./LoginPage.scss";
 import Bullgoods from "../../assets/Bullgoods.jpg";
+import { Link } from "react-router";
 
 function LoginPage() {
   return (
@@ -9,10 +10,13 @@ function LoginPage() {
         <div className="logo">Bullgoods</div>
         <nav>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact</a></li>
-            <li className="active"><a href="#">Log In</a></li>
+            <li>
+              <a href="#">HOME</a>
+
+            </li>
+            <li><a href="#">ABOUT US</a></li>
+            <li><a href="#">CONTACT US</a></li>
+            <li className="active"><a href="#">LOG IN</a></li>
           </ul>
         </nav>
       </header>

@@ -15,8 +15,10 @@
   top: 0;
   width: 100%;
   z-index: 10;
+  font-family: "Poppins";
 
   .logo {
+    font-family: "Poetsen One", sans-serif;
     font-size: 2rem;
     font-weight: bold;
     color: #f48c8c;
@@ -85,15 +87,17 @@
       color: #ef6c57;
       font-size: 2rem;
       margin-bottom: 1.5rem;
+      font-family: "League Spartan";
     }
 
     .input-group {
       display: flex;
       align-items: center;
-      background: #f0f0f0;
+      background: #0000;
       border-radius: 10px;
       padding: 0.75rem;
       margin-bottom: 1rem;
+      
 
       .icon {
         margin-right: 0.75rem;
@@ -106,6 +110,7 @@
         background: transparent;
         width: 100%;
         font-size: 1rem;
+        color: black;
 
         &:focus {
           outline: none;
@@ -116,8 +121,9 @@
     .options {
       display: flex;
       justify-content: space-between;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       margin-bottom: 1.5rem;
+      color: #888;
 
       a {
         color: #888;
@@ -130,7 +136,7 @@
       width: 100%;
       padding: 0.75rem;
       background-color: #d78877;
-      color: white;
+      color: White;
       border: none;
       border-radius: 8px;
       font-size: 1rem;
@@ -148,7 +154,7 @@
       font-size: 0.875rem;
 
       a {
-        color: #6a1b9a;
+        color: #c76b5d;
         text-decoration: none;
         font-weight: bold;
       }

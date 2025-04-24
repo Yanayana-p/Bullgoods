@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import LoginPage from "./components/LoginPage/LoginPage"; // Adjust if your path is different
+import LoginPage from "./components/LoginPage/LoginPage"; 
 
 function App() {
   return (
