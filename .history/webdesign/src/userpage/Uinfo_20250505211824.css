@@ -1,0 +1,109 @@
+.profile-page {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: #f8eadd;
+
+    flex-wrap: wrap;
+  }
+  
+  .profile-info {
+    border: 2px dashed #004aad;
+    padding: 1rem;
+    width: 45%;
+    background-color: white;
+  }
+  
+  .profile-info h2 {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subheading {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  
+  .bio {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+  
+  .user-form {
+    width: 45%;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+  }
+  
+  .user-form h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+    color: #444;
+  }
+  
+  input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .submit-btn {
+    background-color: black;
+    color: white;
+    padding: 0.7rem;
+    width: 100%;
+    border: none;
+    margin-top: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    flex: 1;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: black;
+  }
+  
+  .delete-btn {
+    background-color: #a5352a;
+    margin-right: 0;
+  }
+  

@@ -1,0 +1,51 @@
+import React, { useEffect, useState } from 'react';
+import './Fhome.css';
+
+function Fhome() {
+  const [time, setTime] = useState(new Date());
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const formattedTime = time.toLocaleTimeString('en-PH', {
+    timeZone: 'Asia/Manila',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+  const currentDay = time.toLocaleDateString('en-PH', {
+    timeZone: 'Asia/Manila',
+    weekday: 'long',
+  });
+
+  const fullDate = time.toLocaleDateString('en-PH', {
+    timeZone: 'Asia/Manila',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log('Searching for:', searchQuery);
+    // Add your search handling logic here
+  };
+
+  return (
+    <div className="fhome-container">
+      <h1 className="time-day">
+        <span className="ph-time">{formattedTime}</span>
+      </h1>
+      <p className="day-date">
+        <span className="current-day">{currentDay}</span>, <span className="full-date">{fullDate}</span>
+      </p>

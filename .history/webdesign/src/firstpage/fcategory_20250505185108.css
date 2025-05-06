@@ -1,0 +1,31 @@
+.category-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 150px;
+    flex-wrap: wrap;
+  }
+  
+  .category-button {
+    padding: 10px 30px;
+    border: 2px solid #CA8E82;
+    background-color: white;
+    color: #292421;
+    font-size: 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  }
+  
+
+  .category-button:hover,
+  .category-button:focus {
+    background-color: #CA8E82;
+    color: white;
+    transform: scale(1.05); 
+  }
+  
+  .fcategory-wrapper {
+    margin-top: 20px;
+  }
