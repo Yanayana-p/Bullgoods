@@ -1,0 +1,165 @@
+/* Add this to your <head> tag in HTML for Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@400;600&display=swap');
+
+/* General Styles for Home */
+.home-container {
+    padding-top: 100px; /* Offset for fixed navbar */
+    text-align: center;
+}
+
+.hero-section {
+    background-color: #f0f0f0;
+    padding: 100px 40px;
+    border: 2px solid #CA8E82;
+    border-radius: 36px;
+    max-width: 1500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /* Spread image and text */
+    align-items: center;
+    gap: 0px; /* Optional spacing between image and text */
+    transition: transform 0.3s ease-in-out; /* Add smooth transition */
+}
+
+/* Hover effect for hero section */
+.hero-section:hover {
+    transform: translateY(-10px); /* Slightly lift the hero section */
+}
+
+.hero-section .image-container {
+    width: 50%;
+}
+
+.hero-section img {
+    width: 80%;
+    height: auto;
+    transition: transform 0.3s ease-in-out; /* Add smooth hover effect */
+}
+
+/* Hover effect for image */
+.hero-section img:hover {
+    transform: scale(1.1); /* Slight zoom-in effect */
+}
+
+.hero-section .text-container {
+    width: 50%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Apply girly font and adjust styling */
+.hero-section h1 {
+    font-family: 'Dancing Script', cursive;  /* Soft, script-like font */
+    font-size: 48px;  /* Bigger font size for an elegant look */
+    color: #CA8E82;  /* Girly pink color */
+    margin-bottom: 20px;
+    letter-spacing: 1px;  /* Slight letter spacing */
+    animation: fadeIn 1s ease-out; /* Add fade-in animation */
+}
+
+/* Fade-in animation for text */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-section p {
+    font-family: 'Poppins', sans-serif;  /* Elegant sans-serif font */
+    font-size: 20px;
+    color: #666;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards; /* Apply fade-in with delay */
+    animation-delay: 0.5s; /* Delay the paragraph appearance */
+}
+
+.shop-now {
+    padding: 10px 30px;
+    background-color: #CA8E82;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 27px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Add smooth transition */
+}
+
+/* Hover effect for button */
+.shop-now:hover {
+    background-color: #292421;
+    transform: translateY(-5px); /* Lift the button on hover */
+}
+
+/* Features Section */
+.features {
+    padding: 50px 20px;
+}
+
+.features h2 {
+    font-size: 30px;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeIn 2s ease-out forwards;
+    animation-delay: 1s; /* Delay header appearance */
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-card {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add smooth transition */
+}
+
+/* Hover effect for feature cards */
+.feature-card:hover {
+    transform: translateY(-10px); /* Lift the feature card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.feature-card h3 {
+    font-size: 20px;
+    color: #CA8E82;
+    font-family: 'Dancing Script', cursive;  /* Girly font for feature card titles */
+    transition: color 0.3s ease; /* Smooth color change */
+}
+
+/* Hover effect for feature card titles */
+.feature-card:hover h3 {
+    color: #292421; /* Change color on hover */
+}
+
+.feature-card p {
+    font-size: 16px;
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect for feature card descriptions */
+.feature-card:hover p {
+    color: #CA8E82; /* Change color on hover */
+}

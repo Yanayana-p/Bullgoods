@@ -1,0 +1,120 @@
+/* General Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Ensure space between logo, menu, and button */
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Added transition for background and shadow */
+}
+
+/* Dark background when scrolled with box-shadow */
+.navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background when scrolled */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+/* Navbar logo image */
+.navbar img {
+    margin-left: 30px;
+    width: 37px;
+    height: auto;
+    transition: transform 0.3s ease; /* Added smooth transform transition */
+}
+
+/* Hover effect for logo */
+.navbar img:hover {
+    transform: scale(1.1); /* Slightly zoom the logo */
+}
+
+/* Navbar menu styles */
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 15px; /* Space between the menu items */
+}
+
+.navbar-menu li {
+    margin: 0;
+}
+
+.navbar-menu a {
+    color: #292421;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease; /* Add transition for color and transform */
+}
+
+/* Hover effect for menu items */
+.navbar-menu a:hover {
+    color: #CA8E82; /* Hover color */
+    transform: translateY(-3px); /* Lift the item a little */
+}
+
+/* Active section color */
+.navbar-menu .active {
+    color: #CA8E82; /* Active section color */
+    font-weight: bold;
+    transform: scale(1.1); /* Slightly enlarge active link */
+}
+
+/* Navbar Button Styles */
+.navbar-button {
+    width: 122px;
+    padding: 10px 20px;
+    margin-left: 20px;
+    margin-right: 30px; /* Space between menu and button */
+    background-color: #CA8E82;
+    border: none;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 27px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Added transition for button */
+}
+
+/* Hover Effect for Navbar Button */
+.navbar-button:hover {
+    background-color: #292421;
+    color: #D9B99F;
+    transform: translateY(-5px); /* Lift the button */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}
+
+/* Focus Effect for Button (when clicked or focused) */
+.navbar-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(202, 142, 130, 0.5); /* Light outline effect on focus */
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .navbar-menu {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .navbar-menu li {
+        margin: 10px 0;
+    }
+
+    .navbar-button {
+        margin-top: 20px;
+        width: auto;
+    }
+}

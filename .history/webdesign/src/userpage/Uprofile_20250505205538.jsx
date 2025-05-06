@@ -1,0 +1,30 @@
+import React from 'react';
+import './UserProfile.css';
+
+function UserProfile() {
+  return (
+    <div className="user-profile-container">
+      <div className="user-info-box">
+        <h2>Profile</h2>
+        <h4 className="sub-heading">USER INFORMATION</h4>
+        <p>
+          Body text for your whole article or post. We'll put in some lorem ipsum to show how a filled-out page might look:
+        </p>
+        <p>
+          Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect nostrud nisi intricate Content.
+          Qui international first-class nulla ut. Punctual adipiscing, essential lovely queen tempor eiusmod irure.
+          Exclusive izakaya charming Scandinavian impeccable aute quality of life soft power partilur Melbourne coccaceat discerning.
+          Qui wardrobe aliquip, et Porter destination Toto remarkable officia Helsinki excepteur Basset hound. Zürich sleepy perfect consectetur.
+        </p>
+        <p className="note">BIO EVEN THOUGH NOT A SELLER</p>
+        <strong>All About Me</strong>
+      </div>
+
+      <div className="user-image-box">
+        {/* You can add an image or a placeholder */}
+      </div>
+    </div>
+  );
+}
+
+export default UserProfile;
