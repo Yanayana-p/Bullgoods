@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // You can still use Link if you want SPA behavior
+import { Link } from 'react-router-dom'; // Enables SPA navigation
 import './Navbar.css';
 
 function Navbar() {
@@ -10,24 +10,19 @@ function Navbar() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 200;
 
-      // Update active section
       const hero = document.getElementById('hero');
       const developers = document.getElementById('developers');
       const footer = document.getElementById('footer');
 
-      if (footer.offsetTop <= scrollPosition) {
+      if (footer && footer.offsetTop <= scrollPosition) {
         setActiveSection('footer');
-      } else if (developers.offsetTop <= scrollPosition) {
+      } else if (developers && developers.offsetTop <= scrollPosition) {
         setActiveSection('developers');
       } else {
         setActiveSection('hero');
       }
 
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -37,6 +32,7 @@ function Navbar() {
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <img src="webcon.png" alt="BullGoods Logo" />
+
       <ul className="navbar-menu">
         <li>
           <a href="#hero" className={activeSection === 'hero' ? 'active' : ''}>Home</a>
@@ -48,7 +44,10 @@ function Navbar() {
           <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>
         </li>
       </ul>
-      <button className="navbar-button">Log In</button>
+
+      <Link to="/loginpage">
+        <button className="navbar-button">Log In</button>
+      </Link>
     </nav>
   );
 }
