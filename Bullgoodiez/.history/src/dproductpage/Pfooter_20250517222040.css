@@ -1,0 +1,13 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    background-color: #f2e7dd;
+    color: #CA8E82;
+    font-family: 'Arial', sans-serif;
+    margin-top: 30px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0; /* Important: prevent footer from shrinking */
+  }
+  

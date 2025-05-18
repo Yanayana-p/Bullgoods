@@ -2,12 +2,12 @@
     display: flex;
     justify-content: space-between;
     padding: 30px;
-    background-color: #f2e7dd; /* Background color for the footer */
-    color: #CA8E82; /* Text color */
+    background-color: #f2e7dd;
+    color: #CA8E82;
     font-family: 'Arial', sans-serif;
-    margin-top: 30px; /* Ensure there's space between the content and the footer */
-    z-index: 1;  /* Set a lower z-index than the navbar if needed */
-    position: relative; /* Ensures the footer is positioned within the normal document flow */
+    margin-top: 30px;
+    z-index: 1;
+    position: relative;
   }
   
   .footer-left {
@@ -40,7 +40,7 @@
     font-size: 15px;
     display: flex;
     flex-direction: column;
-    width: 200px; /* Adjust width per column */
+    width: 200px;
   }
   
   .footer-column h4 {
