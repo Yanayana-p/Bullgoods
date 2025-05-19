@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import { AuthProvider } from './context/AuthContext';
 // Main page components
 import Navbar from './components/Navbar'; 
 import Home from './components/Home';
@@ -32,6 +33,7 @@ import Pfooter from './dproductpage/Pfooter';
 import Alogin from './adminlogin/alogin';
 import Apage from './adminpage/apage';
 
+import SignUpPage from './signuppage/signuppage';
 
 function MainPage() {
   return (
@@ -121,17 +123,21 @@ function AdminPage() {
 
 function App() {
   return (
-    <Router>
+    <AuthProvider>
+      <Router>
       <Routes>
         <Route path="/" element={<MainPage />} /> 
         <Route path="/firstpage" element={<FirstPage />} /> 
         <Route path="/userpage" element={<UserPage />} /> 
         <Route path="/loginpage" element={<><Navibar /> <LoginPage /></>} />
+        <Route path="/signup" element={<><Navibar /> <SignUpPage /></>} />
         <Route path="/dproductpage/:id" element={<ProductPage />} /> 
         <Route path="/adminlogin" element={<AdminLogin />} /> 
         <Route path="/adminpage" element={<AdminPage />} /> 
       </Routes>
     </Router>
+    </AuthProvider>
+
   );
 }
 

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { FaUserCircle } from 'react-icons/fa';
 import './Navbar.css';
 
 function Navbar() {
   const [activeSection, setActiveSection] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,9 +49,24 @@ function Navbar() {
         </li>
       </ul>
 
-      <Link to="/loginpage">
-        <button className="navbar-button">Log In</button>
-      </Link>
+      {/* Conditional user/login UI here */}
+      {user ? (
+        <div className="navbar-user">
+          <FaUserCircle 
+            className="user-icon"
+            size={30}
+            onClick={() => navigate('/userpage')}
+            style={{ cursor: 'pointer', color: '#f48c8c' }}
+          />
+          <button className="logout-btn" onClick={logout}>
+            Log Out
+          </button>
+        </div>
+      ) : (
+        <Link to="/loginpage">
+          <button className="navbar-button">Log In</button>
+        </Link>
+      )}
     </nav>
   );
 }

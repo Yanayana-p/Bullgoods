@@ -34,7 +34,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-column">
-          <h4>Folow Us On</h4>
+          <h4>Follow Us On</h4>
           <ul>
             <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             <li><a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">X</a></li>

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./signuppage.scss";
-import Bullgoods from "../public/Bullgoods.jpg";
 
-function SignUpPage() {
+function signuppage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [studentId, setStudentId] = useState('');
@@ -19,7 +18,7 @@ function SignUpPage() {
     <div className="signup-page">
       <main className="signup-container">
         <div className="left-section">
-          <img src={Bullgoods} alt="Bullgoods" />
+          <img src="/Bullgoods.jpg" alt="Bullgoods" />
         </div>
 
         <div className="right-section">
@@ -83,7 +82,7 @@ function SignUpPage() {
             </form>
 
             <p className="login-text">
-               <Link to="/login"> Already have an account? Log in</Link>
+               <Link to="/loginpage"> Already have an account? Log in</Link>
             </p>
           </div>
         </div>
@@ -92,4 +91,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default signuppage;
