@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FaUserCircle } from 'react-icons/fa';
@@ -7,13 +7,15 @@ import './Navbar.css';
 function Navbar() {
   const [activeSection, setActiveSection] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 200;
-
       const hero = document.getElementById('hero');
       const developers = document.getElementById('developers');
       const footer = document.getElementById('footer');
@@ -29,9 +31,24 @@ function Navbar() {
       setIsScrolled(window.scrollY > 50);
     };
 
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
+
+  const handleUserClick = () => {
+    setShowDropdown(prev => !prev);
+  };
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
@@ -49,18 +66,20 @@ function Navbar() {
         </li>
       </ul>
 
-      {/* Conditional user/login UI here */}
       {user ? (
-        <div className="navbar-user">
+        <div className="navbar-user" ref={dropdownRef}>
           <FaUserCircle 
             className="user-icon"
             size={30}
-            onClick={() => navigate('/userpage')}
+            onClick={handleUserClick}
             style={{ cursor: 'pointer', color: '#f48c8c' }}
           />
-          <button className="logout-btn" onClick={logout}>
-            Log Out
-          </button>
+          {showDropdown && (
+            <div className="dropdown-menu">
+              <button onClick={() => navigate('/userpage')}>Go to User</button>
+              <button onClick={logout}>Log Out</button>
+            </div>
+          )}
         </div>
       ) : (
         <Link to="/loginpage">

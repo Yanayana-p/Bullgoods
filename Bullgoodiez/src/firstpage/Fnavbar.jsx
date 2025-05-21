@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Fnavbar.css';
 import { FaUserCircle, FaGift } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function Fnavbar1() {
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,8 +29,13 @@ function Fnavbar1() {
           <FaUserCircle />
         </Link>
 
-        <button className="icon-button"><FaGift /></button>
-        <button className="start-selling">Start Selling</button>
+        <button className="icon-button" onClick={() => navigate ('/wishlist')}>
+          <FaGift />
+          </button>
+      <Link to="/firstpage/start-selling" className="start-selling-button">
+         Start Selling
+        </Link>
+
       </div>
     </nav>
   );

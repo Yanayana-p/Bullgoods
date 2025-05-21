@@ -51,20 +51,7 @@
             font-weight: bold;
           }
         }
-  
-        li:last-child a {
-          background-color: #f48c8c;
-          color: white !important;
-          padding: 0.5rem 1rem;
-          border-radius: 8px;
-          font-weight: bold;
-          transition: 0.3s ease;
-          text-transform: uppercase;
-  
-          &:hover {
-            background-color: #e26a6a;
-          }
-        }
+
       }
     }
   

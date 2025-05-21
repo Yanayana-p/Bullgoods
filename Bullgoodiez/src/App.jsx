@@ -24,6 +24,7 @@ import Uinfo from './userpage/Uinfo';
 import Ufooter from './userpage/Ufooter';
 
 import LoginPage from './loginpage/loginpage';
+import SignUpPage from './signuppage/signuppage';
 import Navibar from './components/Navibar'; 
 
 import Pnavbar from './dproductpage/Pnavbar';
@@ -33,7 +34,10 @@ import Pfooter from './dproductpage/Pfooter';
 import Alogin from './adminlogin/alogin';
 import Apage from './adminpage/apage';
 
-import SignUpPage from './signuppage/signuppage';
+import SellingPageRegis from './sellingpageregis/SellingPagerRegis';
+
+import WishlistPage from './wishlistpage/wishlistpage';
+import { WishlistProvider } from './context/WishlistContext';
 
 function MainPage() {
   return (
@@ -124,6 +128,7 @@ function AdminPage() {
 function App() {
   return (
     <AuthProvider>
+      <WishlistProvider>
       <Router>
       <Routes>
         <Route path="/" element={<MainPage />} /> 
@@ -131,12 +136,16 @@ function App() {
         <Route path="/userpage" element={<UserPage />} /> 
         <Route path="/loginpage" element={<><Navibar /> <LoginPage /></>} />
         <Route path="/signup" element={<><Navibar /> <SignUpPage /></>} />
+        <Route path ="/firstpage/start-selling" element = {<><Navibar/> <SellingPageRegis /></>} />
         <Route path="/dproductpage/:id" element={<ProductPage />} /> 
+        <Route path ="/wishlist" element ={<WishlistPage />} />
         <Route path="/adminlogin" element={<AdminLogin />} /> 
         <Route path="/adminpage" element={<AdminPage />} /> 
       </Routes>
     </Router>
+    </WishlistProvider>
     </AuthProvider>
+    
 
   );
 }

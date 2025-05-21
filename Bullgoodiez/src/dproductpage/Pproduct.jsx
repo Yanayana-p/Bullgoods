@@ -1,5 +1,7 @@
 import React from 'react';
 import './Pproduct.css';
+import { useWishlist } from '../context/WishlistContext';
+import { useState } from 'react';
 
 const sampleProducts = [
   { id: 1, name: 'Strawberry Cake', price: 100, description: 'Tasty layered cake with fresh strawberries and cream. Made with love...', image: '/product1.jpg' },
@@ -17,11 +19,28 @@ const sampleProducts = [
 function Pproduct({ productId }) {
   const id = Number(productId);
   const product = sampleProducts.find(p => p.id === id);
+  const { addToWishlist } = useWishlist();
+  const [showPopup, setShowPopup] = useState(false);
 
   if (!product) return <div className="product-not-found">Product not found</div>;
 
+const handleAddToWishlist = () => {
+  addToWishlist(product);
+  console.log("Clicked Add to Wishlist");
+  setShowPopup(true);
+  setTimeout(() => {
+    setShowPopup(false);
+    console.log("Popup hidden");
+  }, 2000);
+};
+  
   return (
     <div className="page-container">
+      {showPopup && (
+        <div className ="popup-toast">
+          ✅ Added to wishlist!
+          </div>
+      )}
       <div className="product-container">
         <div className="image-section">
           <img src={product.image} alt={product.name} className="main-image" />
@@ -31,7 +50,7 @@ function Pproduct({ productId }) {
           <h3 className="price">₱ {product.price.toFixed(2)}</h3>
           <p>{product.description}</p>
           <div className="button-row">
-            <button className="btn">Add to Wishlist</button>
+            <button className="btn" onClick = {handleAddToWishlist}> Add to Wishlist</button>
             <a href="https://www.facebook.com/slvjeo/" target="_blank" rel="noopener noreferrer">
               <button className="btn">Contact Seller</button>
             </a>

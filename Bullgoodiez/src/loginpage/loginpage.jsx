@@ -18,7 +18,7 @@ function LoginPage() {
     };
 
     login(userData);
-    navigate ("/userpage");
+    navigate ("/firstpage");
   };
 
   return (
