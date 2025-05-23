@@ -95,6 +95,17 @@ body {
   font-size: 20px;
   color: red;
 }
+.category-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn.active {
+  background-color: #5f1c1c;
+}
 
 .popup-toast {
   position: fixed;

@@ -13,7 +13,7 @@ import Footer from './components/Footer1';
 // First page components
 import Fnavbar1 from './firstpage/Fnavbar';
 import Fhome from './firstpage/Fhome';
-import Fcategory from './firstpage/fcategory';
+import Fcategory from './firstpage/Fcategory';
 import Fproducts from './firstpage/Fproducts';
 import Ffooter from './firstpage/Ffooter';
 
@@ -22,6 +22,12 @@ import Unavbar from './userpage/Unavbar';
 import Uprofile from './userpage/Uprofile';
 import Uinfo from './userpage/Uinfo';
 import Ufooter from './userpage/Ufooter';
+
+//Seller
+import Snavbar from './sellerpage/Snavbar';
+import Sprofile from './sellerpage/Sprofile';
+import Sinfo from './sellerpage/Sinfo';
+import Sfooter from './sellerpage/Sfooter';
 
 import LoginPage from './loginpage/loginpage';
 import SignUpPage from './signuppage/signuppage';
@@ -38,6 +44,8 @@ import SellingPageRegis from './sellingpageregis/SellingPagerRegis';
 
 import WishlistPage from './wishlistpage/wishlistpage';
 import { WishlistProvider } from './context/WishlistContext';
+
+import ProductCatalog from './dproductpage/ProductCatalog';
 
 function MainPage() {
   return (
@@ -96,6 +104,23 @@ function UserPage() {
   );
 }
 
+function SellerPage() {
+  return (
+    <>
+      <Snavbar />
+      <div className="Sprofile-wrapper">
+        <Sprofile />
+      </div>
+      <div className="Sinfo-wrapper">
+        <Sinfo />
+      </div>
+      <div className="Sfooter-wrapper">
+        <Sfooter />
+      </div>
+    </>
+  );
+}
+
 function ProductPage() {
   const { id } = useParams();
   return (
@@ -134,10 +159,12 @@ function App() {
         <Route path="/" element={<MainPage />} /> 
         <Route path="/firstpage" element={<FirstPage />} /> 
         <Route path="/userpage" element={<UserPage />} /> 
+        <Route path="/sellerpage" element= {<SellerPage />} />
         <Route path="/loginpage" element={<><Navibar /> <LoginPage /></>} />
         <Route path="/signup" element={<><Navibar /> <SignUpPage /></>} />
         <Route path ="/firstpage/start-selling" element = {<><Navibar/> <SellingPageRegis /></>} />
         <Route path="/dproductpage/:id" element={<ProductPage />} /> 
+        <Route path ="/products" element ={<ProductCatalog />} />
         <Route path ="/wishlist" element ={<WishlistPage />} />
         <Route path="/adminlogin" element={<AdminLogin />} /> 
         <Route path="/adminpage" element={<AdminPage />} /> 

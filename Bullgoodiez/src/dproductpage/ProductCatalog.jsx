@@ -1,7 +1,7 @@
-import React from 'react';
-import './Pproduct.css';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
-import { useState } from 'react';
+import './Pproduct.css';
 
 const sampleProducts = [
   { id: 1, name: 'Strawberry Cake', category: 'Food', price: 100, description: 'Tasty layered cake with fresh strawberries and cream. Made with love...', image: '/product1.jpg' },
@@ -15,50 +15,61 @@ const sampleProducts = [
   { id: 9, name: 'Drawing pad', price: 20000, category: 'Appliances',description: 'For sale! Never been used kasi hiniwalayan ako nung pagbibigyan ko. Di naman ako marunong mag-drawing. Bilhin niyo na para may pang tuition ako. Ibato ko na lang to.', image: '/product9.jpg' },
   { id: 10, name: 'Spotify Premium', price: 125, category: 'Subscriptions', description: 'Pagod ka na ba mag-commute? Avail ka na para di ka na pagod. May libreng dalawang kiss pag nag-avail. Limited offer!', image: '/product10.jpg' },
 ];
+const categories = ['All', 'Food', 'Clothes', 'Accessories', 'Appliances', 'Subscriptions'];
 
-function Pproduct({ productId }) {
-  const id = Number(productId);
-  const product = sampleProducts.find(p => p.id === id);
+function ProductCatalog() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialCategory = queryParams.get('category') || 'All';
+
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [searchTerm, setSearchTerm] = useState('');
   const { addToWishlist } = useWishlist();
-  const [showPopup, setShowPopup] = useState(false);
 
-  if (!product) return <div className="product-not-found">Product not found</div>;
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
 
-const handleAddToWishlist = () => {
-  addToWishlist(product);
-  console.log("Clicked Add to Wishlist");
-  setShowPopup(true);
-  setTimeout(() => {
-    setShowPopup(false);
-    console.log("Popup hidden");
-  }, 2000);
-};
-  
+  const filteredProducts = sampleProducts.filter(product => {
+    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
   return (
     <div className="page-container">
-      {showPopup && (
-        <div className ="popup-toast">
-          ✅ Added to wishlist!
-          </div>
-      )}
+      <div className="button-row" style={{ marginBottom: '20px' }}>
+        {categories.map(category => (
+          <button
+            key={category}
+            className={`btn ${selectedCategory === category ? 'active' : ''}`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', marginLeft: '10px' }}
+        />
+      </div>
       <div className="product-container">
-        <div className="image-section">
-          <img src={product.image} alt={product.name} className="main-image" />
-        </div>
-        <div className="details-section">
-          <h2>{product.name}</h2>
-          <h3 className="price">₱ {product.price.toFixed(2)}</h3>
-          <p>{product.description}</p>
-          <div className="button-row">
-            <button className="btn" onClick = {handleAddToWishlist}> Add to Wishlist</button>
-            <a href="https://www.facebook.com/slvjeo/" target="_blank" rel="noopener noreferrer">
-              <button className="btn">Contact Seller</button>
-            </a>
+        {filteredProducts.map(product => (
+          <div key={product.id} className="details-section">
+            <img src={product.image} alt={product.name} className="main-image" />
+            <h2>{product.name}</h2>
+            <p>{product.description}</p>
+            <h3 className="price">₱{product.price}</h3>
+            <button className="btn" onClick={() => addToWishlist(product)}>Add to Wishlist</button>
           </div>
-        </div>
+        ))}
+        {filteredProducts.length === 0 && <div>No products found.</div>}
       </div>
     </div>
   );
 }
 
-export default Pproduct;
+export default ProductCatalog;

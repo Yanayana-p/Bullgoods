@@ -7,11 +7,12 @@ function signuppage() {
   const [lastName, setLastName] = useState('');
   const [studentId, setStudentId] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setphoneNumber ] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Signing up with:", { firstName, lastName, studentId, email, password });
+    console.log("Signing up with:", { firstName, lastName, studentId,  phoneNumber, email, password });
   };
 
   return (
@@ -55,6 +56,17 @@ function signuppage() {
                   required
                 />
               </div>
+
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Phone Number"
+                  value={phoneNumber}
+                  onChange={(e) => phoneNumber(e.target.value)}
+                  required
+                />
+              </div>
+
 
               <div className="input-group">
                 <input
