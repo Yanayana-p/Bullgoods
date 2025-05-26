@@ -1,0 +1,98 @@
+.admin-container {
+  display: flex;
+  height: 100vh;
+  background-color: #faede5;
+  font-family: 'Arial', sans-serif;
+}
+
+.sidebar {
+  width: 180px;
+  padding: 20px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+/* Style both nav and action buttons */
+.nav-menu,
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.nav-menu button,
+.action-buttons button {
+  padding: 6px 12px;
+  border: 1px solid black;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.nav-menu button:hover,
+.action-buttons button:hover {
+  background-color: #e1dcd8;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 20px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 600px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #999;
+  margin-right: 20px;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  background-color: #2e1c18;
+  color: white;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.admin-table {
+  background-color: #fce6dc;
+  margin-top: 20px;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  padding: 10px;
+  font-weight: bold;
+  font-size: small;
+  background-color: #fef7f2;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+/* Optional: Remove dummy row styles if you're not displaying them */
+.table-row {
+  display: none;
+}

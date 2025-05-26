@@ -1,0 +1,76 @@
+.fnavbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #F2E7DD;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .fnavbar-left {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.fnavbar-center {
+    display: flex;
+    justify-content: center;
+    flex: 2;
+}
+
+.fnavbar-logo {
+    height: 40px;
+    margin-top: 10px;
+}
+
+.fnavbar-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex: 17;
+}
+
+.icon-button {
+    background-color: #292421;
+    color: #f3e7dd;
+    border: none;
+    border-radius: 37%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.icon-button:hover {
+    background-color: #CA8E82;
+}
+  
+.start-selling-button {
+  background-color: #292421;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  color: white;
+  margin-left: 0.5rem;
+  text-decoration: none;
+
+}
+.start-selling-button:hover {
+  background-color: #CA8E82;
+}
+
+  body {
+    padding-top: 60px;
+  }
+  
