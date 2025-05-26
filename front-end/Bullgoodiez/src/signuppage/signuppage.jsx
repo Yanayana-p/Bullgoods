@@ -10,10 +10,37 @@ function SignupPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Signing up with:", { firstName, lastName, studentId,  phoneNumber, email, password });
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        studentId,
+        phoneNumber,
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.message || 'Signup failed');
+      return;
+    }
+
+    alert('Signup successful!');
+    // Optionally redirect or clear form
+    } catch (err) {
+    console.error('Signup error:', err);
+    alert('Failed to connect to server');
+    }
+};
 
   return (
     <div className="signup-page">
