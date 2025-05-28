@@ -37,12 +37,16 @@ const signupUser = (req, res) => {
     return res.status(400).json({ message: 'All fields are required.' });
   }
 
-   if (!/^\d+$/.test(studentId)) {
-    return res.status(400).json({ message: 'Student ID must contain only numbers.' });
+   // ✅ Validate studentId format: 4 digits - 6 digits
+  const studentIdRegex = /^\d{4}-\d{6}$/;
+  if (!studentIdRegex.test(studentId)) {
+    return res.status(400).json({ message: 'Student ID must be in the format YYYY-XXXXXX (2000-123456).' });
   }
 
-  if (!/^\d+$/.test(phoneNumber)) {
-    return res.status(400).json({ message: 'Phone number must contain only numbers.' });
+  // ✅ Validate phoneNumber (numbers only)
+  const phoneRegex = /^\d+$/;
+  if (!phoneRegex.test(phoneNumber)) {
+    return res.status(400).json({ message: 'Phone number must contain only numbers. Please use the format 09xxxxxxxxx' });
   }
 
   // ✅ Validate email domain
