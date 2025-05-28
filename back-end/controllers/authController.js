@@ -44,10 +44,12 @@ const signupUser = (req, res) => {
   }
 
   // ✅ Validate phoneNumber (numbers only)
-  const phoneRegex = /^\d+$/;
-  if (!phoneRegex.test(phoneNumber)) {
-    return res.status(400).json({ message: 'Phone number must contain only numbers. Please use the format 09xxxxxxxxx' });
-  }
+const phoneRegex = /^09\d{9}$/;
+if (!phoneRegex.test(phoneNumber)) {
+  return res.status(400).json({
+    message: 'Phone number must contain exactly 11 digits and start with 09 (e.g., 09123456789).'
+  });
+}
 
   // ✅ Validate email domain
   const emailRegex = /^[a-zA-Z0-9._%+-]+@students\.national-u\.edu\.ph$/;
