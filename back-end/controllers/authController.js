@@ -37,6 +37,14 @@ const signupUser = (req, res) => {
     return res.status(400).json({ message: 'All fields are required.' });
   }
 
+   if (!/^\d+$/.test(studentId)) {
+    return res.status(400).json({ message: 'Student ID must contain only numbers.' });
+  }
+
+  if (!/^\d+$/.test(phoneNumber)) {
+    return res.status(400).json({ message: 'Phone number must contain only numbers.' });
+  }
+
   // ✅ Validate email domain
   const emailRegex = /^[a-zA-Z0-9._%+-]+@students\.national-u\.edu\.ph$/;
   if (!emailRegex.test(email)) {
