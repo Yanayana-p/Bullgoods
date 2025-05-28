@@ -38,7 +38,7 @@ const signupUser = (req, res) => {
   }
 
    // ✅ Validate studentId format: 4 digits - 6 digits
-  const studentIdRegex = /^\d{4}-\d{6}$/;
+  const studentIdRegex = /^\d{4}-\d{4,7}$/;
   if (!studentIdRegex.test(studentId)) {
     return res.status(400).json({ message: 'Student ID must be in the format YYYY-XXXXXX (2000-123456).' });
   }
@@ -47,7 +47,7 @@ const signupUser = (req, res) => {
 const phoneRegex = /^09\d{9}$/;
 if (!phoneRegex.test(phoneNumber)) {
   return res.status(400).json({
-    message: 'Phone number must contain exactly 11 digits and start with 09 (e.g., 09123456789).'
+    message: 'Phone number must contain exactly 11 digits and start with 09 (09123456789).'
   });
 }
 
