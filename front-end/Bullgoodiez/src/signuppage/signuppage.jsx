@@ -34,13 +34,20 @@ const handleSubmit = async (e) => {
       return;
     }
 
+    // ✅ Store user info in localStorage
+    localStorage.setItem('user', JSON.stringify(data.user));
+
     alert('Signup successful!');
-    // Optionally redirect or clear form
-    } catch (err) {
+
+    // Optional: Redirect to seller profile after signup
+    window.location.href = '/sellerpage'; // or use useNavigate() if you're using react-router-dom v6+
+
+  } catch (err) {
     console.error('Signup error:', err);
     alert('Failed to connect to server');
-    }
+  }
 };
+
 
   return (
     <div className="signup-page">
