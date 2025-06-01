@@ -38,16 +38,17 @@ const handleSubmit = async (e) => {
     localStorage.setItem('user', JSON.stringify(data.user));
 
     alert('Signup successful!');
+    localStorage.setItem("registeredStudentId", studentId);
+    localStorage.setItem("registeredStudentEmail", email);
 
     // Optional: Redirect to seller profile after signup
-    window.location.href = '/sellerpage'; // or use useNavigate() if you're using react-router-dom v6+
+    window.location.href = '/firstpage'; // or use useNavigate() if you're using react-router-dom v6+
 
   } catch (err) {
     console.error('Signup error:', err);
     alert('Failed to connect to server');
   }
 };
-
 
   return (
     <div className="signup-page">
