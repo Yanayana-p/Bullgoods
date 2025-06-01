@@ -1,34 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./sellingpageregis.scss";
+//import { useEffect } from "react"; // <-- Add useEffect here
+
 
 function SellingPageRegis() {
   const [email, setEmail] = useState('');
   const [studentId, setStudentId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
+   useEffect(() => {
+    setFirstName(localStorage.getItem("registeredFirstName") || '');
+    setLastName(localStorage.getItem("registeredLastName") || '');
+    setPhoneNumber(localStorage.getItem("registeredPhoneNumber") || '');
+  }, []);
+  
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Get registered data from localStorage
-    const registeredEmail = localStorage.getItem("registeredStudentEmail");
-    const registeredStudentId = localStorage.getItem("registeredStudentId");
+  // Retrieve all stored registration data
+  const registeredEmail = localStorage.getItem("registeredStudentEmail");
+  const registeredStudentId = localStorage.getItem("registeredStudentId");
+  const registeredFirstName = localStorage.getItem("registeredFirstName");
+  const registeredLastName = localStorage.getItem("registeredLastName");
+  const registeredPhoneNumber = localStorage.getItem("registeredPhoneNumber");
 
-    // Check if input matches registration data
-    if (email === registeredEmail && studentId === registeredStudentId) {
-      const userData = {
-        email,
-        name: "Demo User",
-      };
-      login(userData);
-      navigate("/sellerpage");
-    } else {
-      setErrorMessage("Student ID or Email does not match your registration.");
-    }
-  };
+  // Check if all inputs match
+  if (
+    email === registeredEmail &&
+    studentId === registeredStudentId &&
+    firstName === registeredFirstName &&
+    lastName === registeredLastName &&
+    phoneNumber === registeredPhoneNumber
+  ) {
+    const userData = {
+      studentId,
+      phoneNumber,
+      firstName,
+      lastName,
+      email,
+      password: ''
+    };
+
+    localStorage.setItem('user', JSON.stringify(userData));
+    login(userData);
+    navigate("/sellerpage");
+  } else {
+    setErrorMessage("Your details do not match the registration. Please check all fields.");
+  }
+};
 
   return (
     <div className="sellingpageregis-page">
@@ -41,6 +67,7 @@ function SellingPageRegis() {
           <div className="login-box">
             <h2>Seller Registration</h2>
             <form onSubmit={handleSubmit}>
+
               <div className="input-group">
                 <span className="icon">👤</span>
                 <input
@@ -51,6 +78,7 @@ function SellingPageRegis() {
                   required
                 />
               </div>
+
               <div className="input-group">
                 <span className="icon">📧</span>
                 <input
@@ -61,6 +89,38 @@ function SellingPageRegis() {
                   required
                 />
               </div>
+
+              <div className="input-group">
+                <span className="icon">🧑</span>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  readOnly
+                />
+              </div>
+
+
+              <div className="input-group">
+                <span className="icon">🧑</span>
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  readOnly
+                />
+              </div>
+
+              <div className="input-group">
+                <span className="icon">📱</span>
+                <input
+                  type="text"
+                  placeholder="Phone Number"
+                  value={phoneNumber}
+                  readOnly
+                />
+              </div>
+
               {errorMessage && (
                 <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>
               )}
