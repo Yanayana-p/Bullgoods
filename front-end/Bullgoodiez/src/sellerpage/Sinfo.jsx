@@ -32,7 +32,12 @@ function SellerProfile() {
     e.preventDefault();
     // Update user data in localStorage
     localStorage.setItem('user', JSON.stringify(user));
-    console.log('Updated User Info:', user);
+    //console.log('Updated User Info:', user);
+    localStorage.setItem("registeredFirstName", user.firstName);
+    localStorage.setItem("registeredLastName", user.lastName);
+    localStorage.setItem("registeredPhoneNumber", user.phoneNumber);
+    localStorage.setItem("registedPassword", user.password);
+    alert("Profile updated successfully!");
     setEditable(false);
   };
 
@@ -55,7 +60,7 @@ function SellerProfile() {
               name="studentId"
               value={user.studentId}
               onChange={handleChange}
-              disabled={!editable}
+              disabled
               placeholder="ID number"
             />
           </div>
