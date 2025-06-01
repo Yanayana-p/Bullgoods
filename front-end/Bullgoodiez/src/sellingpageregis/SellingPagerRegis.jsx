@@ -15,31 +15,36 @@ function SellingPageRegis() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-   useEffect(() => {
-    setFirstName(localStorage.getItem("registeredFirstName") || '');
-    setLastName(localStorage.getItem("registeredLastName") || '');
-    setPhoneNumber(localStorage.getItem("registeredPhoneNumber") || '');
-  }, []);
-  
-  const handleSubmit = (e) => {
+useEffect(() => {
+  try {
+    const storedUserStr = localStorage.getItem("user");
+    if (!storedUserStr || storedUserStr === "undefined") return;
+
+    const storedUser = JSON.parse(storedUserStr);
+    setFirstName(storedUser.firstName || '');
+    setLastName(storedUser.lastName || '');
+    setPhoneNumber(storedUser.phoneNumber || '');
+  } catch (err) {
+    console.error("Error parsing user in useEffect", err);
+    localStorage.removeItem("user"); // Clear invalid data
+  }
+}, []);
+
+
+
+const handleSubmit = (e) => {
   e.preventDefault();
 
-  // Retrieve all stored registration data
-  const registeredEmail = localStorage.getItem("registeredStudentEmail");
-  const registeredStudentId = localStorage.getItem("registeredStudentId");
-  const registeredFirstName = localStorage.getItem("registeredFirstName");
-  const registeredLastName = localStorage.getItem("registeredLastName");
-  const registeredPhoneNumber = localStorage.getItem("registeredPhoneNumber");
+  const storedUserStr = localStorage.getItem("user");
 
-  // Check if all inputs match
-  if (
-    email === registeredEmail &&
-    studentId === registeredStudentId &&
-    firstName === registeredFirstName &&
-    lastName === registeredLastName &&
-    phoneNumber === registeredPhoneNumber
-  ) {
-    const userData = {
+  // First-time registration
+  if (!storedUserStr || storedUserStr === "undefined") {
+    if (!firstName || !lastName || !phoneNumber) {
+      setErrorMessage("Missing profile data. Please refresh and try again.");
+      return;
+    }
+
+    const newUser = {
       studentId,
       phoneNumber,
       firstName,
@@ -48,13 +53,51 @@ function SellingPageRegis() {
       password: ''
     };
 
-    localStorage.setItem('user', JSON.stringify(userData));
-    login(userData);
-    navigate("/sellerpage");
-  } else {
-    setErrorMessage("Your details do not match the registration. Please check all fields.");
+    try {
+      localStorage.setItem("user", JSON.stringify(newUser));
+      login(newUser);
+      navigate("/sellerpage");
+    } catch (err) {
+      console.error("Failed to save new user:", err);
+      setErrorMessage("Something went wrong while saving. Please try again.");
+    }
+
+    return;
+  }
+
+  // Returning user
+  try {
+    const registeredUser = JSON.parse(storedUserStr);
+
+    // Validate structure of saved user
+    if (
+      !registeredUser ||
+      !registeredUser.email ||
+      !registeredUser.studentId ||
+      !registeredUser.firstName ||
+      !registeredUser.lastName ||
+      !registeredUser.phoneNumber
+    ) {
+      throw new Error("Invalid user data");
+    }
+
+    if (
+      email.trim() === registeredUser.email &&
+      studentId.trim() === registeredUser.studentId
+    ) {
+      login(registeredUser);
+      navigate("/sellerpage");
+    } else {
+      setErrorMessage("Your Student ID or Email is incorrect. Please try again.");
+    }
+  } catch (err) {
+    console.error("Error parsing user from localStorage", err);
+    // Reset broken localStorage entry
+    localStorage.removeItem("user");
+    setErrorMessage("Your data was corrupted. Please re-register.");
   }
 };
+
 
   return (
     <div className="sellingpageregis-page">

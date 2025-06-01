@@ -28,6 +28,7 @@ function LoginPage() {
 
     // Use login from AuthContext
     login(data.user);
+    alert('Login Successful!');
     // Save token if you want: localStorage.setItem('token', data.token);
     navigate('/firstpage');
   } catch (err) {

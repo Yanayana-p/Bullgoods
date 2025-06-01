@@ -28,18 +28,46 @@ function SellerProfile() {
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Update user data in localStorage
-    localStorage.setItem('user', JSON.stringify(user));
-    //console.log('Updated User Info:', user);
-    localStorage.setItem("registeredFirstName", user.firstName);
-    localStorage.setItem("registeredLastName", user.lastName);
-    localStorage.setItem("registeredPhoneNumber", user.phoneNumber);
-    localStorage.setItem("registedPassword", user.password);
-    alert("Profile updated successfully!");
-    setEditable(false);
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Update user data in localStorage
+  //   localStorage.setItem('user', JSON.stringify(user));
+  //   //console.log('Updated User Info:', user);
+  //   localStorage.setItem("registeredFirstName", user.firstName);
+  //   localStorage.setItem("registeredLastName", user.lastName);
+  //   localStorage.setItem("registeredPhoneNumber", user.phoneNumber);
+  //   //localStorage.setItem("registeredPassword", user.password);
+  //   alert("Profile updated successfully!");
+  //   setEditable(false);
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/api/users/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user), // Make sure email is included
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || 'Failed to update profile');
+        return;
+      }
+
+      // Update localStorage with latest user info from backend
+      localStorage.setItem('user', JSON.stringify(data.user));
+      alert("Profile updated successfully!");
+      setEditable(false);
+
+    } catch (err) {
+      console.error("Profile update failed:", err);
+      alert("Server error. Could not update profile.");
+    }
   };
+
 
   const handleDelete = () => {
     localStorage.removeItem("user");
@@ -51,7 +79,7 @@ function SellerProfile() {
   return (
     <div className="user-form-minimal">
       <h2>All About Me</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}> {/*handleSubmit inside*/}
         <div className="form-row">
           <div className="form-group">
             <label>Identification number</label>
