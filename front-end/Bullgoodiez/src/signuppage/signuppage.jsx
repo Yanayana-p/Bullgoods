@@ -43,6 +43,7 @@ const handleSubmit = async (e) => {
     localStorage.setItem("registeredFirstName", firstName);
     localStorage.setItem("registeredLastName", lastName);
     localStorage.setItem("registeredPhoneNumber", phoneNumber);
+    localStorage.setItem("registedPassword",password);
 
     // Optional: Redirect to seller profile after signup
     window.location.href = '/firstpage'; // or use useNavigate() if you're using react-router-dom v6+
