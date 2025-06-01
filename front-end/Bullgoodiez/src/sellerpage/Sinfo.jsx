@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import './Sinfo.css';
 
 function SellerProfile() {
@@ -13,6 +13,7 @@ function SellerProfile() {
 
   const [editable, setEditable] = useState(false);
 
+  // Load user data on component mount
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -29,8 +30,17 @@ function SellerProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Update user data in localStorage
+    localStorage.setItem('user', JSON.stringify(user));
     console.log('Updated User Info:', user);
     setEditable(false);
+  };
+
+  const handleDelete = () => {
+    localStorage.removeItem("user");
+    alert("Account deleted.");
+    // You can redirect to login or registration page if needed
+    // navigate("/register");
   };
 
   return (
@@ -93,7 +103,6 @@ function SellerProfile() {
             type="email"
             name="email"
             value={user.email}
-            onChange={handleChange}
             disabled
             placeholder="user@national-u.edu.ph"
           />
@@ -119,7 +128,7 @@ function SellerProfile() {
           <button type="button" className="edit-btn" onClick={handleEdit}>
             Edit
           </button>
-          <button type="button" className="delete-btn">
+          <button type="button" className="delete-btn" onClick={handleDelete}>
             Delete Account
           </button>
         </div>
