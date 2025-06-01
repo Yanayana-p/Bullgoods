@@ -1,6 +1,6 @@
 //----------------------LOG_IN--------------------
 // Temporary in-memory user for testing
-const users = [];
+const users = require('../models/userStore');
 
 const loginUser = (req, res) => {
   const { email, password } = req.body;
@@ -21,8 +21,7 @@ const loginUser = (req, res) => {
 
   return res.json({
     user: userWithoutPassword,
-    user: user,
-    token: 'mock-token-123' // Replace with real JWT in production
+    token: 'mock-token-123'
   });
 };
 
@@ -32,45 +31,38 @@ const loginUser = (req, res) => {
 const signupUser = (req, res) => {
   const { firstName, lastName, studentId, phoneNumber, email, password } = req.body;
 
-  // ✅ Basic empty check
   if (!firstName || !lastName || !studentId || !phoneNumber || !email || !password) {
     return res.status(400).json({ message: 'All fields are required.' });
   }
 
-   // ✅ Validate studentId format: 4 digits - 6 digits
   const studentIdRegex = /^\d{4}-\d{4,7}$/;
   if (!studentIdRegex.test(studentId)) {
     return res.status(400).json({ message: 'Student ID must be in the format YYYY-XXXXXX (2000-123456).' });
   }
 
-  // ✅ Validate phoneNumber (numbers only)
-const phoneRegex = /^09\d{9}$/;
-if (!phoneRegex.test(phoneNumber)) {
-  return res.status(400).json({
-    message: 'Phone number must contain exactly 11 digits and start with 09 (09123456789).'
-  });
-}
+  const phoneRegex = /^09\d{9}$/;
+  if (!phoneRegex.test(phoneNumber)) {
+    return res.status(400).json({
+      message: 'Phone number must contain exactly 11 digits and start with 09 (09123456789).'
+    });
+  }
 
-  // ✅ Validate email domain
   const emailRegex = /^[a-zA-Z0-9._%+-]+@students\.national-u\.edu\.ph$/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ message: 'Please use your @students.national-u.edu.ph email.' });
   }
 
-  // ✅ Check if user already exists
   const existingUser = users.find((user) => user.email === email);
   if (existingUser) {
     return res.status(409).json({ message: 'User already exists with that email.' });
   }
 
-  // ✅ Register user
   const newUser = { firstName, lastName, studentId, phoneNumber, email, password };
   users.push(newUser);
 
   return res.status(201).json({
     message: 'User registered successfully!',
-    user: newUser,
-    user: { firstName, lastName, email }, // Do not expose password
+    user: { firstName, lastName, studentId, phoneNumber, email }, // no password!
   });
 };
 
