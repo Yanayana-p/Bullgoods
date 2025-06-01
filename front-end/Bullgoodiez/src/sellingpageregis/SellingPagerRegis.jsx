@@ -1,24 +1,33 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./sellingpageregis.scss";
 
 function SellingPageRegis() {
   const [email, setEmail] = useState('');
-  const [text, setId] = useState ('');
+  const [studentId, setStudentId] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const userData = {
-      email,
-      name: "Demo User"
-    };
+    // Get registered data from localStorage
+    const registeredEmail = localStorage.getItem("registeredStudentEmail");
+    const registeredStudentId = localStorage.getItem("registeredStudentId");
 
-    login(userData);
-    navigate ("/sellerpage");
+    // Check if input matches registration data
+    if (email === registeredEmail && studentId === registeredStudentId) {
+      const userData = {
+        email,
+        name: "Demo User",
+      };
+      login(userData);
+      navigate("/sellerpage");
+    } else {
+      setErrorMessage("Student ID or Email does not match your registration.");
+    }
   };
 
   return (
@@ -37,21 +46,24 @@ function SellingPageRegis() {
                 <input
                   type="text"
                   placeholder="Student ID"
-                  value={text}
-                  onChange={(e) => setId(e.target.value)}
+                  value={studentId}
+                  onChange={(e) => setStudentId(e.target.value)}
                   required
                 />
               </div>
               <div className="input-group">
-                <span className="icon">👤</span>
+                <span className="icon">📧</span>
                 <input
                   type="email"
                   placeholder="Student Email"
                   value={email}
-                  onChange={(e) => setEmail (e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
+              {errorMessage && (
+                <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>
+              )}
               <button className="startselling-btn" type="submit">
                 Start Selling
               </button>
