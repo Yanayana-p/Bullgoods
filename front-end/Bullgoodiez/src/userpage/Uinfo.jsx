@@ -43,31 +43,39 @@ function SellerProfile() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+
     try {
       const response = await fetch('http://localhost:5000/api/users/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user), // Make sure email is included
+        body: JSON.stringify(user), // Send updated user
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || 'Failed to update profile');
+        alert(data.message || "Failed to update profile.");
         return;
       }
 
-      // Update localStorage with latest user info from backend
-      localStorage.setItem('user', JSON.stringify(data.user));
+      // ✅ Update localStorage
+      localStorage.setItem('user', JSON.stringify(data.user || user)); // Prefer backend response if available
+
+      // ✅ Also update individual fields if you’re using them elsewhere
+      localStorage.setItem("registeredFirstName", user.firstName);
+      localStorage.setItem("registeredLastName", user.lastName);
+      localStorage.setItem("registeredPhoneNumber", user.phoneNumber);
+      localStorage.setItem("registeredStudentId", user.studentId);
+      localStorage.setItem("registeredEmail", user.email);
+
       alert("Profile updated successfully!");
       setEditable(false);
 
-    } catch (err) {
-      console.error("Profile update failed:", err);
-      alert("Server error. Could not update profile.");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Something went wrong. Please try again.");
     }
   };
-
 
   const handleDelete = () => {
     localStorage.removeItem("user");
