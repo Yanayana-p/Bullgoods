@@ -18,14 +18,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
-  };
+  setUser(userData);
+  localStorage.setItem("user", JSON.stringify(userData));
+  localStorage.setItem("isLoggedIn", "true"); // ✅ Set login flag
+};
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-  };
+const logout = () => {
+  setUser(null);
+  localStorage.removeItem("user");
+  localStorage.removeItem("isLoggedIn"); // ✅ Clear login flag
+};
+
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
