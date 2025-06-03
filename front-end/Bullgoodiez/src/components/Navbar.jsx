@@ -16,7 +16,7 @@ function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 200;
-      const hero = document.getElementById('hero');
+      //const hero = document.getElementById('hero');
       const developers = document.getElementById('developers');
       const footer = document.getElementById('footer');
 

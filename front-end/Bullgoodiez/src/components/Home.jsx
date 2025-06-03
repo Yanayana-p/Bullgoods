@@ -1,12 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // adjust the path as needed
 import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
+  const { user } = useAuth(); // ✅ use context
 
   const handleShopNowClick = () => {
-    navigate('/firstpage');
+    if (user) {
+      navigate('/firstpage');
+    } else {
+      navigate('/loginpage');
+    }
   };
 
   return (
