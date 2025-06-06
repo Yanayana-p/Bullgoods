@@ -46,7 +46,7 @@ const handleSubmit = async (e) => {
     localStorage.setItem("registeredPassword",password);
 
     // Optional: Redirect to seller profile after signup
-    window.location.href = '/firstpage'; // or use useNavigate() if you're using react-router-dom v6+
+    window.location.href = '/loginpage'; // or use useNavigate() if you're using react-router-dom v6+
 
   } catch (err) {
     console.error('Signup error:', err);

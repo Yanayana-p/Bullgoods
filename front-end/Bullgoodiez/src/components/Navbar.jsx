@@ -10,7 +10,7 @@ function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function Navbar() {
         </li>
       </ul>
 
-      {user ? (
+      {!loading && user ? ( // ✅ Only show user icon if done loading and logged in
         <div className="navbar-user" ref={dropdownRef}>
           <FaUserCircle 
             className="user-icon"
