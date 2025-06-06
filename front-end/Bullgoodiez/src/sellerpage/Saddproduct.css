@@ -29,13 +29,13 @@
 }
 
 .save-draft {
-  background-color: white;
+  background-color: black;
   border: 1px solid #ccc;
 }
 
 .add-product {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #d29c87;
+  color: black;
 }
 
 /* Form sections */
@@ -84,26 +84,6 @@ textarea {
   resize: vertical;
 }
 
-/* Size and gender buttons */
-.size-gender-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.options button {
-  margin: 0.25rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #e7fbe9;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.options button:hover {
-  background-color: #c3f7cf;
-}
 
 /* Image upload preview */
 .image-preview img {
@@ -163,10 +143,23 @@ textarea {
 /* Category */
 .add-category {
   margin-top: 0.5rem;
-  background-color: #4CAF50;
+  background-color: #c2886c;
   color: white;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
+
+select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 1rem;
+  background-color: white;
+}
+
