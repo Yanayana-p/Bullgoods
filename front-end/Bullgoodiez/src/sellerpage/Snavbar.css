@@ -107,3 +107,16 @@
         width: auto;
     }
 }
+
+.add-product-link {
+  color: #fff;
+  background-color: #d29c87;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.add-product-link:hover {
+  background-color: #e76e6e;
+}

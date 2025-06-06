@@ -44,56 +44,36 @@
     outline: none;
   }
   
-  .submit-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #000;
-    border-radius: 8px;
-    color: white;
-    border: none;
-    margin-top: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .submit-btn:hover {
-    background-color: #333;
-  }
-  
-  .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-  }
-  
-  .edit-btn,
-  .delete-btn {
-    flex: 1;
-    padding: 0.75rem;
-    margin: 0.5rem;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .edit-btn {
-    background-color: #000;
-    color: #F2E7DD;
-  }
-  
-  .edit-btn:hover {
-    background-color: #333;
-    transform: scale(1.02);
-  }
-  
-  .delete-btn {
-    background-color: #b23b3b;
-    color: white;
-  }
-  
-  .delete-btn:hover {
-    background-color: #911c1c;
-    transform: scale(1.02);
-  }
-  
+.submit-btn,
+.edit-btn,
+.delete-btn {
+  width: auto;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: white;
+  font-weight: bold;
+}
+
+.submit-btn {
+  background-color: #000;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover {
+  background-color: #333;
+}
+
+.edit-btn,
+.delete-btn {
+  background-color: #A03936 !important;
+  margin: 0.5rem 0;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  background-color: #7A2B28;
+  transform: scale(1.02);
+}

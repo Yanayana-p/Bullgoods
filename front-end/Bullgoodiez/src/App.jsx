@@ -47,6 +47,8 @@ import { WishlistProvider } from './context/WishlistContext';
 
 import ProductCatalog from './dproductpage/ProductCatalog';
 
+import AddProductPage from './sellerpage/Saddprouct';
+
 import { useEffect } from 'react'; //call backend
 
 function MainPage() {
@@ -174,6 +176,7 @@ function App() {
         <Route path="/loginpage" element={<><Navibar /> <LoginPage /></>} />
         <Route path="/signup" element={<><Navibar /> <SignUpPage /></>} />
         <Route path ="/firstpage/start-selling" element = {<><Navibar/> <SellingPageRegis /></>} />
+         <Route path="/addproduct" element={<AddProductPage />} />
         <Route path="/dproductpage/:id" element={<ProductPage />} /> 
         <Route path ="/products" element ={<ProductCatalog />} />
         <Route path ="/wishlist" element ={<WishlistPage />} />

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Fproducts.css';
+import { useProducts } from '../context/ProductContext'; // 👈 Import context
 
-const sampleProducts = [
+const defaultProducts = [
   {
     id: 1,
     name: 'Strawberry Cake',
@@ -68,7 +68,15 @@ const sampleProducts = [
 ];
 
 function Fproducts() {
-  const [products, setProducts] = useState(sampleProducts);
+  const context = useProducts();
+  const addedProducts = context?.products || []; // 🔄 get added products from context
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    // Merge sample + added products (optional)
+    const allProducts = [...defaultProducts, ...addedProducts];
+    setProducts(allProducts);
+  }, [addedProducts]);
 
   const toggleLike = (id, e) => {
     e.preventDefault();

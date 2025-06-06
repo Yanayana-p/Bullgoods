@@ -6,7 +6,6 @@
     align-items: center;
     justify-content: center;
     height: 30vh;
-    background-color: #f3e7dd;
     color: #292421;
     text-align: center;
     padding-top: 300px;
@@ -20,7 +19,7 @@
     padding: 10px;
     border: 2px solid #CA8E82;
     border-radius: 110px;
-    background-color: white;
+    background-color: #f3e7dd;
 }
 
 .ph-time {

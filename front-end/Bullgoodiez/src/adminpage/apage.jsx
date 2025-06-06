@@ -26,14 +26,10 @@ const Apage = () => {
         <div className="nav-menu">
           <button>User</button>
           <button>Wishlist</button>
-          <button>Seller</button>
           <button>Products</button>
-          <button>Category</button>
         </div>
 
         <div className="action-buttons">
-          <button>CREATE</button>
-          <button>READ</button>
           <button>UPDATE</button>
           <button>DELETE</button>
         </div>
