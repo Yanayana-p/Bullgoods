@@ -24,7 +24,7 @@ import Ufooter from './userpage/Ufooter';
 import LoginPage from './loginpage/loginpage';
 import Navibar from './components/Navibar'; 
 
-import Navibar from './productpage/Pavbar';
+import Navibar from './productpage/Pnavbar';
 
 import Pnavbar from './productpage/Pnavbar';
 import Pproduct from './productpage/Pproduct'; 

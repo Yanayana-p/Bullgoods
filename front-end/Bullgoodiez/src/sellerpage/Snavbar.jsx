@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // ✅ make sure path is correct
+import { useAuth } from '../context/AuthContext'; 
 import { FaUserCircle } from 'react-icons/fa';
 import './Snavbar.css';
 
@@ -10,7 +10,7 @@ function Snavbar() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  const { user, logout } = useAuth(); // ✅ use auth context
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,6 +63,9 @@ function Snavbar() {
         </li>
         <li>
           <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>
+        </li>
+        <li>
+          <Link to="/addproduct" className="add-product-link">Add Product</Link>
         </li>
       </ul>
 

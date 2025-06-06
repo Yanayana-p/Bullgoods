@@ -37,7 +37,6 @@ with the thrill of finding the right product at the right time. Recommend ko sa 
         <h2>Profile</h2>
         <h4 className="sub-heading">USER INFORMATION</h4>
         <p>
-          Kyla Perez, 21 years old. Maganda tapos magastos hehe. Looking for boyf-... pre-loved items puh.
         </p>
         <textarea
           ref={textareaRef}
