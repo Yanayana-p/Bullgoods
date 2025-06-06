@@ -30,7 +30,7 @@ export default function AddProductPage() {
       id: Date.now(), // simple unique ID
       name,
       description: desc,
-      price,
+      price: Number(price),
       category,
       image: mainImage || thumbnails[0],
     };

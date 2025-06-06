@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Pproduct.css';
+import { useParams } from 'react-router-dom'; // ✅ Get ID from route
 import { useWishlist } from '../context/WishlistContext';
-import { useState } from 'react';
+import { useProducts } from '../context/ProductContext'; // ✅ Import your context
+
 
 const sampleProducts = [
   { id: 1, name: 'Strawberry Cake', category: 'Food', price: 100, description: 'Tasty layered cake with fresh strawberries and cream. Made with love...', image: '/product1.jpg' },
@@ -16,13 +18,22 @@ const sampleProducts = [
   { id: 10, name: 'Spotify Premium', price: 125, category: 'Subscriptions', description: 'Pagod ka na ba mag-commute? Avail ka na para di ka na pagod. May libreng dalawang kiss pag nag-avail. Limited offer!', image: '/product10.jpg' },
 ];
 
-function Pproduct({ productId }) {
-  const id = Number(productId);
-  const product = sampleProducts.find(p => p.id === id);
-  const { addToWishlist } = useWishlist();
+function Pproduct() {
+  const { id } = useParams();
+  const productId = Number(id);
+  const { products: addedProducts } = useProducts(); // ✅ Get added products from context
   const [showPopup, setShowPopup] = useState(false);
+  const { addToWishlist } = useWishlist();
+
+  const allProducts = [...sampleProducts, ...addedProducts]; // ✅ Combine both sources
+  console.log("Product ID from URL:", productId);
+  console.log("Added products from context:", addedProducts);
+  console.log("All products:", allProducts);
+
+  const product = allProducts.find(p => p.id === productId); // ✅ Match by ID
 
   if (!product) return <div className="product-not-found">Product not found</div>;
+
 
 const handleAddToWishlist = () => {
   addToWishlist(product);
