@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./sellingpageregis.scss";
-//import { useEffect } from "react"; // <-- Add useEffect here
 
 
 function SellingPageRegis() {
@@ -16,20 +15,26 @@ function SellingPageRegis() {
   const navigate = useNavigate();
 
 useEffect(() => {
-  try {
-    const storedUserStr = localStorage.getItem("user");
-    if (!storedUserStr || storedUserStr === "undefined") return;
+  const storedUserStr = localStorage.getItem("user");
 
+  if (!storedUserStr || storedUserStr === "undefined") return;
+
+  try {
     const storedUser = JSON.parse(storedUserStr);
-    setFirstName(storedUser.firstName || '');
-    setLastName(storedUser.lastName || '');
-    setPhoneNumber(storedUser.phoneNumber || '');
+
+    if (storedUser?.isSeller === true) {
+      navigate("/sellerpage"); // ✅ Already registered seller
+    } else {
+      // Prefill from existing user data
+      setFirstName(storedUser.firstName || '');
+      setLastName(storedUser.lastName || '');
+      setPhoneNumber(storedUser.phoneNumber || '');
+    }
   } catch (err) {
     console.error("Error parsing user in useEffect", err);
-    localStorage.removeItem("user"); // Clear invalid data
+    localStorage.removeItem("user");
   }
-}, []);
-
+}, [navigate]);
 
 
 const handleSubmit = (e) => {
@@ -50,8 +55,10 @@ const handleSubmit = (e) => {
       firstName,
       lastName,
       email,
+      isSeller: true, // ✅ New flag
       password: ''
     };
+
 
     try {
       localStorage.setItem("user", JSON.stringify(newUser));
@@ -82,12 +89,14 @@ const handleSubmit = (e) => {
     }
 
     if (
-      email.trim() === registeredUser.email &&
-      studentId.trim() === registeredUser.studentId
-    ) {
-      login(registeredUser);
-      navigate("/sellerpage");
-    } else {
+    email.trim() === registeredUser.email &&
+    studentId.trim() === registeredUser.studentId
+  ) {
+    const updatedUser = { ...registeredUser, isSeller: true }; // ✅ ADD isSeller
+    localStorage.setItem("user", JSON.stringify(updatedUser)); // ✅ Save to localStorage
+    login(updatedUser); // ✅ Update context
+    navigate("/sellerpage");
+  } else {
       setErrorMessage("Your Student ID or Email is incorrect. Please try again.");
     }
   } catch (err) {
