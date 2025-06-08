@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ProductProvider } from './context/ProductContext';
 
 import { AuthProvider } from './context/AuthContext';
 // Main page components
@@ -73,23 +74,24 @@ function MainPage() {
 
 function FirstPage() {
   return (
-    <>
+    <div className="firstpage-container">
       <Fnavbar1 />
       <div className="fhome-wrapper">
         <Fhome />
       </div>
-      <div className="fcategory-wrapper">
+      {/* <div className="fcategory-wrapper">
         <Fcategory />
-      </div>
+      </div> */}
       <div className="fproducts-wrapper">
         <Fproducts />
       </div>
       <div className="ffooter-wrapper">
         <Ffooter />
       </div>
-    </>
+    </div>
   );
 }
+
 
 function UserPage() {
   return (
@@ -167,24 +169,26 @@ function App() {
   return (
     <AuthProvider>
       <WishlistProvider>
-      <Router>
-      <Routes>
-        <Route path="/" element={<MainPage />} /> 
-        <Route path="/firstpage" element={<FirstPage />} /> 
-        <Route path="/userpage" element={<UserPage />} /> 
-        <Route path="/sellerpage" element= {<SellerPage />} />
-        <Route path="/loginpage" element={<><Navibar /> <LoginPage /></>} />
-        <Route path="/signup" element={<><Navibar /> <SignUpPage /></>} />
-        <Route path ="/firstpage/start-selling" element = {<><Navibar/> <SellingPageRegis /></>} />
-         <Route path="/addproduct" element={<AddProductPage />} />
-        <Route path="/dproductpage/:id" element={<ProductPage />} /> 
-        <Route path ="/products" element ={<ProductCatalog />} />
-        <Route path ="/wishlist" element ={<WishlistPage />} />
-        <Route path="/adminlogin" element={<AdminLogin />} /> 
-        <Route path="/adminpage" element={<AdminPage />} /> 
-      </Routes>
-    </Router>
-    </WishlistProvider>
+        <ProductProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<MainPage />} /> 
+              <Route path="/firstpage" element={<FirstPage />} /> 
+              <Route path="/userpage" element={<UserPage />} /> 
+              <Route path="/sellerpage" element= {<SellerPage />} />
+              <Route path="/loginpage" element={<><Navibar /> <LoginPage /></>} />
+              <Route path="/signup" element={<><Navibar /> <SignUpPage /></>} />
+              <Route path ="/firstpage/start-selling" element = {<><Navibar/> <SellingPageRegis /></>} />
+              <Route path="/addproduct" element={<AddProductPage />} />
+              <Route path="/dproductpage/:id" element={<ProductPage />} /> 
+              <Route path ="/products" element ={<ProductCatalog />} />
+              <Route path ="/wishlist" element ={<WishlistPage />} />
+              <Route path="/adminlogin" element={<AdminLogin />} /> 
+              <Route path="/adminpage" element={<AdminPage />} /> 
+            </Routes>
+          </Router>
+        </ProductProvider>
+      </WishlistProvider>
     </AuthProvider>
   )
 };

@@ -95,7 +95,7 @@ export default function AddProductPage() {
             <div className="section">
               <h3>Category</h3>
               <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="Foods">Foods</option>
+                <option value="Food">Food</option>
                 <option value="Clothes">Clothes</option>
                 <option value="Accessories">Accessories</option>
                 <option value="Appliances">Appliances</option>
