@@ -18,13 +18,13 @@ const defaultProducts = [
   { id: 10, name: 'Spotify Premium', image: '/product10.jpg', liked: false, category: 'Subscriptions' },
 ];
 
-function Fproducts() {
+function Fproducts({ searchQuery = '' }) {  // 🆕 accept prop
   const context = useProducts();
   const addedProducts = context?.products || [];
 
   // 🔘 State for category and search query
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
+  //const [searchQuery] = useState('');
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

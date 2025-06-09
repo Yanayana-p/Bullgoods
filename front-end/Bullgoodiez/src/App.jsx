@@ -52,6 +52,8 @@ import AddProductPage from './sellerpage/Saddprouct';
 
 import { useEffect } from 'react'; //call backend
 
+import ScrollToHash from './components/ScrollToHash';
+
 function MainPage() {
   return (
     <>
@@ -82,9 +84,9 @@ function FirstPage() {
       {/* <div className="fcategory-wrapper">
         <Fcategory />
       </div> */}
-      <div className="fproducts-wrapper">
+      {/* <div className="fproducts-wrapper">
         <Fproducts />
-      </div>
+      </div> */}
       <div className="ffooter-wrapper">
         <Ffooter />
       </div>
@@ -171,6 +173,7 @@ function App() {
       <WishlistProvider>
         <ProductProvider>
           <Router>
+            <ScrollToHash />
             <Routes>
               <Route path="/" element={<MainPage />} /> 
               <Route path="/firstpage" element={<FirstPage />} /> 

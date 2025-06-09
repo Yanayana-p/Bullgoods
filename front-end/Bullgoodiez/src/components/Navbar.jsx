@@ -52,11 +52,11 @@ function Navbar() {
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      <img src="webcon.png" alt="BullGoods Logo" />
+      <Link to="/"><img src="webcon.png" alt="BullGoods Logo" /></Link>
 
       <ul className="navbar-menu">
         <li>
-          <a href="#hero" className={activeSection === 'hero' ? 'active' : ''}>Home</a>
+          <Link to="/firstpage" className={activeSection === 'hero' ? 'active' : ''}>Home</Link>
         </li>
         <li>
           <a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a>

@@ -51,14 +51,14 @@ function Unavbar() {
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      <img src="/webcon.png" alt="BullGoods Logo" />
+      <Link to="/"><img src="webcon.png" alt="BullGoods Logo" /></Link>
 
       <ul className="navbar-menu">
         <li>
-          <Link to="/" className={activeSection === 'hero' ? 'active' : ''}>Home</Link>
+          <Link to="/firstpage" className={activeSection === 'hero' ? 'active' : ''}>Home</Link>
         </li>
         <li>
-          <a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a>
+          <Link to="/#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</Link>
         </li>
         <li>
           <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>

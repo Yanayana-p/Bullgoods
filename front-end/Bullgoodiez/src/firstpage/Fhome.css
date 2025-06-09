@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@400;600&display=swap');
 
 .fhome-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 30vh;
-    color: #292421;
-    text-align: center;
-    padding-top: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 100px; /* Prevent footer from touching products */
+  min-height: 100%; /* allow container to grow as needed */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .time-day {

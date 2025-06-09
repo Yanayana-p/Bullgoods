@@ -41,7 +41,7 @@ function Fhome() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log('Searching for:', searchQuery);
+    //console.log('Searching for:', searchQuery);
   };
 
   return (
@@ -69,6 +69,7 @@ function Fhome() {
           </button>
         </form>
       </section>
+      <Fproducts searchQuery={searchQuery} />
     </div>
   );
 }
