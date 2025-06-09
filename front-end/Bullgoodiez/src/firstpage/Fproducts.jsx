@@ -3,7 +3,8 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './Fproducts.css';
 import { useProducts } from '../context/ProductContext';
-import Fcategory from './Fcategory'; // 🆕 Make sure this path is correct
+import { useWishlist } from '../context/WishlistContext';  // <-- Import wishlist hook
+import Fcategory from './Fcategory';
 
 const defaultProducts = [
   { id: 1, name: 'Strawberry Cake', image: '/product1.jpg', liked: false, category: 'Food' },
@@ -18,13 +19,14 @@ const defaultProducts = [
   { id: 10, name: 'Spotify Premium', image: '/product10.jpg', liked: false, category: 'Subscriptions' },
 ];
 
-function Fproducts({ searchQuery = '' }) {  // 🆕 accept prop
+function Fproducts({ searchQuery = '' }) {
   const context = useProducts();
   const addedProducts = context?.products || [];
 
-  // 🔘 State for category and search query
+  // Use wishlist context here
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+
   const [selectedCategory, setSelectedCategory] = useState('All');
-  //const [searchQuery] = useState('');
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -49,24 +51,33 @@ function Fproducts({ searchQuery = '' }) {  // 🆕 accept prop
       return matchesCategory && matchesSearch;
     });
 
-    setProducts(filtered);
-  }, [addedProducts, selectedCategory, searchQuery]);
+    // Set liked based on whether product is in wishlist
+    const updated = filtered.map(product => ({
+      ...product,
+      liked: wishlist.some(item => item.id === product.id),
+    }));
+
+    setProducts(updated);
+  }, [addedProducts, selectedCategory, searchQuery, wishlist]); // <-- re-run when wishlist changes
 
   const toggleLike = (id, e) => {
     e.preventDefault();
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === id ? { ...product, liked: !product.liked } : product
-      )
-    );
+    e.stopPropagation(); // prevent Link navigation when clicking heart
+
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+
+    if (product.liked) {
+      removeFromWishlist(id);
+    } else {
+      addToWishlist(product);
+    }
   };
 
   return (
     <div className="fproducts-container">
-      {/* 🔘 Category Buttons */}
       <Fcategory selectedCategory={selectedCategory} onCategoryClick={setSelectedCategory} />
 
-      {/* 📦 Product List */}
       <div className="product-grid">
         {products.length > 0 ? (
           products.map((product) => (
