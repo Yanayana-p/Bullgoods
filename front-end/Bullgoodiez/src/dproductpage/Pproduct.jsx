@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom'; // ✅ Get ID from route
 import { useWishlist } from '../context/WishlistContext';
 import { useProducts } from '../context/ProductContext'; // ✅ Import your context
 
-
 const sampleProducts = [
   { id: 1, name: 'Strawberry Cake', category: 'Food', price: 100, description: 'Tasty layered cake with fresh strawberries and cream. Made with love...', image: '/product1.jpg' },
   { id: 2, name: 'Leather Jacket', category: 'Clothes', price: 650, description: 'Premium black leather jacket, once lang nagamit ( sa weather dito sa Ph? No) Bigyan ko kayo discount.', image: '/product2.jpg' },
@@ -26,31 +25,29 @@ function Pproduct() {
   const { addToWishlist } = useWishlist();
 
   const allProducts = [...sampleProducts, ...addedProducts]; // ✅ Combine both sources
-  console.log("Product ID from URL:", productId);
-  console.log("Added products from context:", addedProducts);
-  console.log("All products:", allProducts);
 
   const product = allProducts.find(p => p.id === productId); // ✅ Match by ID
 
   if (!product) return <div className="product-not-found">Product not found</div>;
 
+  // Get seller name from localStorage
+  const storedFirstName = localStorage.getItem('registeredFirstName') || 'Unknown';
+  const storedLastName = localStorage.getItem('registeredLastName') || 'Seller';
 
-const handleAddToWishlist = () => {
-  addToWishlist(product);
-  console.log("Clicked Add to Wishlist");
-  setShowPopup(true);
-  setTimeout(() => {
-    setShowPopup(false);
-    console.log("Popup hidden");
-  }, 2000);
-};
-  
+  const handleAddToWishlist = () => {
+    addToWishlist(product);
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 2000);
+  };
+
   return (
     <div className="page-container">
       {showPopup && (
-        <div className ="popup-toast">
+        <div className="popup-toast">
           ✅ Added to wishlist!
-          </div>
+        </div>
       )}
       <div className="product-container">
         <div className="image-section">
@@ -60,8 +57,14 @@ const handleAddToWishlist = () => {
           <h2>{product.name}</h2>
           <h3 className="price">₱ {product.price.toFixed(2)}</h3>
           <p>{product.description}</p>
+
+          {/* Seller info in plain text with Seller: bold */}
+          <p>
+            <strong>Seller:</strong> {storedFirstName} {storedLastName}
+          </p>
+
           <div className="button-row">
-            <button className="btn" onClick = {handleAddToWishlist}> Add to Wishlist</button>
+            <button className="btn" onClick={handleAddToWishlist}>Add to Wishlist</button>
             <a href="https://www.facebook.com/slvjeo/" target="_blank" rel="noopener noreferrer">
               <button className="btn">Contact Seller</button>
             </a>

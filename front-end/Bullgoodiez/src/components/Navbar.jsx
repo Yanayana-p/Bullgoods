@@ -56,7 +56,20 @@ function Navbar() {
 
       <ul className="navbar-menu">
         <li>
-          <Link to="/firstpage" className={activeSection === 'hero' ? 'active' : ''}>Home</Link>
+          <a
+            className={`navbar-link ${activeSection === 'hero' ? 'active' : ''}`}
+            onClick={(e) => {
+              e.preventDefault();
+              if (user) {
+                navigate('/firstpage');
+              } else {
+                navigate('/loginpage');
+              }
+            }}
+            href="/"
+          >
+            Home
+          </a>
         </li>
         <li>
           <a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a>
