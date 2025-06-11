@@ -4,6 +4,7 @@ import './apage.css';
 
 const Apage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -14,17 +15,26 @@ const Apage = () => {
     }
   };
 
-  if (!isLoggedIn) {
-    return null;
-  }
+  const handleFetchUsers = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/all-users');
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to fetch users');
+      setUsers(data);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  if (!isLoggedIn) return null;
 
   return (
     <div className="admin-container">
       <aside className="sidebar">
         <img src="/webcon.png" alt="Logo" className="logo" />
-        
+
         <div className="nav-menu">
-          <button>User</button>
+          <button onClick={handleFetchUsers}>User</button>
           <button>Wishlist</button>
           <button>Products</button>
         </div>
@@ -50,8 +60,18 @@ const Apage = () => {
             <span>Phone Number</span>
             <span>Password</span>
           </div>
-          
-          {/* Add rows if need/want */}
+
+          {/* ✅ Render user rows */}
+          {users.map((user, index) => (
+            <div className="table-row" key={index}>
+              <span>{user.studentId}</span>
+              <span>{user.firstName}</span>
+              <span>{user.lastName}</span>
+              <span>{user.email}</span>
+              <span>{user.phoneNumber}</span>
+              <span>{user.password}</span> {/* Optional: Hide in production */}
+            </div>
+          ))}
         </div>
       </main>
     </div>
