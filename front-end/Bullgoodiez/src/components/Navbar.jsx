@@ -52,41 +52,40 @@ function Navbar() {
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      <img src="webcon.png" alt="BullGoods Logo" />
+  <img src="webcon.png" alt="BullGoods Logo" />
 
-      <ul className="navbar-menu">
-        <li>
-          <a href="#hero" className={activeSection === 'hero' ? 'active' : ''}>Home</a>
-        </li>
-        <li>
-          <a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a>
-        </li>
-        <li>
-          <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>
-        </li>
-      </ul>
+  <div className="navbar-right">
+    <ul className="navbar-menu">
+      <li>
+        <a href="#hero" className={activeSection === 'hero' ? 'active' : ''}>Home</a>
+      </li>
+      <li>
+        <a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a>
+      </li>
+    </ul>
 
-      {user ? (
-        <div className="navbar-user" ref={dropdownRef}>
-          <FaUserCircle 
-            className="user-icon"
-            size={30}
-            onClick={handleUserClick}
-            style={{ cursor: 'pointer', color: '#f48c8c' }}
-          />
-          {showDropdown && (
-            <div className="dropdown-menu">
-              <button onClick={() => navigate('/userpage')}>Go to User</button>
-              <button onClick={logout}>Log Out</button>
-            </div>
-          )}
-        </div>
-      ) : (
-        <Link to="/loginpage">
-          <button className="navbar-button">Log In</button>
-        </Link>
-      )}
-    </nav>
+    {user ? (
+      <div className="navbar-user" ref={dropdownRef}>
+        <FaUserCircle 
+          className="user-icon"
+          size={30}
+          onClick={handleUserClick}
+          style={{ cursor: 'pointer', color: '#f48c8c' }}
+        />
+        {showDropdown && (
+          <div className="dropdown-menu">
+            <button onClick={() => navigate('/userpage')}>Go to User</button>
+            <button onClick={logout}>Log Out</button>
+          </div>
+        )}
+      </div>
+    ) : (
+      <Link to="/loginpage">
+        <button className="navbar-button">Log In</button>
+      </Link>
+    )}
+  </div>
+</nav>
   );
 }
 

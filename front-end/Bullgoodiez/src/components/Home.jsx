@@ -18,30 +18,28 @@ function Home() {
   return (
     <div className="home-container">
       <section className="hero-section">
-  <div className="image-container">
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img src="homeicon2 (1).png" alt="Description" />
-    </a>
-    {/* New button below the image */}
-    <button
-  className="click-here-btn"
-  onClick={() => window.open('https://www.facebook.com/groups/649122791129197', '_blank')}
->
-  Click Here
-</button>
-
-  </div>
-  <div className="text-container">
-    <h1>Welcome to BullGoods</h1>
-    <p>One Stop. Endless Shopping!</p>
-    <button className="shop-now" onClick={handleShopNowClick}>
-      Shop Now
-    </button>
-  </div>
-</section>
+        <div className="image-container">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="homeicon2 (1).png" alt="Description" />
+          </a>
+          <button
+            className="click-here-btn"
+            onClick={() => window.open('https://www.facebook.com/groups/649122791129197', '_blank')}
+          >
+            Click Here
+          </button>
+        </div>
+        <div className="text-container">
+          <h1>Welcome to BullGoods</h1>
+          <p>One Stop. Endless Shopping!</p>
+          <button className="shop-now" onClick={handleShopNowClick}>
+            Shop Now
+          </button>
+        </div>
+    </section>
 
 
       <section className="features">

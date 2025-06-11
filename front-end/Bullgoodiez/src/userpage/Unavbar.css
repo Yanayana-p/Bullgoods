@@ -12,11 +12,6 @@
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.navbar.scrolled {
-    background-color: rgba(0, 0, 0, 0.8); 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
 .navbar img {
     margin-left: 30px;
     width: 37px;
@@ -76,7 +71,7 @@
 
 .navbar-button:hover {
     background-color: #292421;
-    color: #D9B99F;
+    color: #CA8E82;
     transform: translateY(-5px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

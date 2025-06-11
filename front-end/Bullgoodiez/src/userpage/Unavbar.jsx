@@ -60,9 +60,6 @@ function Unavbar() {
         <li>
           <a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a>
         </li>
-        <li>
-          <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>
-        </li>
       </ul>
 
       {user ? (
