@@ -9,8 +9,12 @@ export const ProductProvider = ({ children }) => {
     setProducts(prev => [...prev, product]);
   };
 
+  const removeProduct = (productId) => {
+    setProducts(prev => prev.filter(product => product.id !== productId));
+  };
+
   return (
-    <ProductContext.Provider value={{ products, addProduct }}>
+    <ProductContext.Provider value={{ products, addProduct, removeProduct }}>
       {children}
     </ProductContext.Provider>
   );

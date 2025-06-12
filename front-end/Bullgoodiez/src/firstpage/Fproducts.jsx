@@ -86,7 +86,12 @@ function Fproducts({ searchQuery = '' }) {
               key={product.id}
               className="product-card"
             >
-              <img src={product.image} alt={product.name} className="product-image" />
+              {product.images && product.images.length > 0 ? (
+                <AutoImageCarousel images={product.images || [product.image]} />
+              ) : (
+                <img src={product.image} alt={product.name} className="product-image" />
+              )}
+              
               <div
                 className="heart-icon"
                 onClick={(e) => toggleLike(product.id, e)}

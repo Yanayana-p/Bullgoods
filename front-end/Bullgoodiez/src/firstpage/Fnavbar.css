@@ -73,11 +73,14 @@
     display: flex;
     justify-content: center;
     flex: 2;
+     z-index: 101; /* higher than any overlapping element */
 }
 
 .fnavbar-logo {
     height: 40px;
     margin-top: 10px;
+    pointer-events: auto;
+     position: relative; /* triggers z-index to take effect */
 }
 
 .fnavbar-right {
