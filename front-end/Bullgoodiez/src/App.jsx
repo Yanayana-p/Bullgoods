@@ -182,8 +182,8 @@ function App() {
               <Route path="/firstpage" element={<FirstPage />} /> 
               <Route path="/userpage" element={<UserPage />} /> 
               <Route path="/sellerpage" element= {<SellerPage />} />
-              <Route path="/loginpage" element={<><Navibar /> <LoginPage /></>} />
-              <Route path="/signup" element={<><Navibar /> <SignUpPage /></>} />
+              <Route path="/loginpage" element={<><LoginPage /></>} />
+              <Route path="/signup" element={<><SignUpPage /></>} />
               <Route path ="/firstpage/start-selling" element = {<><Navibar/> <SellingPageRegis /></>} />
               <Route path="/addproduct" element={<AddProductPage />} />
               <Route path="/dproductpage/:id" element={<ProductPage />} /> 

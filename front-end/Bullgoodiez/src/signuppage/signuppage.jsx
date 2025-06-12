@@ -58,7 +58,7 @@ const handleSubmit = async (e) => {
     <div className="signup-page">
       <main className="signup-container">
         <div className="left-section">
-          <img src="/Bullgoods.jpg" alt="Bullgoods" />
+          <img src="/Bullgoods-remove.png" alt="Bullgoods" />
         </div>
 
         <div className="right-section">

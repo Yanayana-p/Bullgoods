@@ -73,8 +73,9 @@ function Fnavbar1() {
         </button>
 
         <button className="start-selling-button" onClick={handleStartSellingClick}>
-          Start Selling
+          {user?.isSeller ? 'Start Selling' : 'Become a Seller'}
         </button>
+
 
         {!loading && user ? (
           <div className="navbar-user" ref={dropdownRef}>

@@ -112,7 +112,7 @@ const handleSubmit = (e) => {
     <div className="sellingpageregis-page">
       <main className="sellingpageregis-container">
         <div className="sellingpageregis-section">
-          <img src="/Bullgoods.jpg" alt="Bullgoods" />
+          <img src="/Bullgoods-remove.png" alt="Bullgoods" />
         </div>
 
         <div className="right-section">

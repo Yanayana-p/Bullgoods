@@ -37,20 +37,11 @@ function LoginPage() {
   }
 };
 
- /*   const userData = {
-      email,
-      name: "Demo User"
-    };
-
-    login(userData);
-    navigate ("/firstpage");
-  };*/
-
   return (
     <div className="login-page">
       <main className="login-container">
         <div className="left-section">
-          <img src="/Bullgoods.jpg" alt="Bullgoods" />
+          <img src="/Bullgoods-remove.png" alt="Bullgoods" />
         </div>
 
         <div className="right-section">
