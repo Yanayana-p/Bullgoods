@@ -35,6 +35,24 @@ function Fnavbar1() {
     setShowDropdown(prev => !prev);
   };
 
+  const handleIconButtonClick = () => {
+    if (user?.isSeller) {
+      navigate('/sellerpage');
+    } else {
+      navigate('/userpage');
+    }
+  };
+
+  const handleStartSellingClick = () => {
+    if (!user) {
+      navigate('/loginpage');
+    } else if (user?.isSeller) {
+      navigate('/addproduct');
+    } else {
+      navigate('/firstpage/start-selling');
+    }
+  };
+
   return (
     <nav className={`fnavbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="fnavbar-left"></div>
@@ -44,29 +62,33 @@ function Fnavbar1() {
           <img src="/webcon.png" alt="Logo" className="fnavbar-logo" />
         </Link>
       </div>
-        <div className="fnavbar-right">
-        <Link to="/userpage" className="icon-button">
+
+      <div className="fnavbar-right">
+        <button className="icon-button" onClick={handleIconButtonClick}>
           <FaUserCircle />
-        </Link>
+        </button>
+
         <button className="icon-button" onClick={() => navigate('/wishlist')}>
           <FaGift />
         </button>
 
-        <Link to="/firstpage/start-selling" className="start-selling-button">
+        <button className="start-selling-button" onClick={handleStartSellingClick}>
           Start Selling
-        </Link>
+        </button>
 
         {!loading && user ? (
           <div className="navbar-user" ref={dropdownRef}>
             <FaUserCircle
               className="user-icon"
-              size={30}
+              size={37}
               onClick={handleUserClick}
               style={{ cursor: 'pointer', color: '#f48c8c' }}
             />
             {showDropdown && (
               <div className="dropdown-menu">
-                <Link to="/loginpage"><button onClick={logout}>Log Out</button></Link>
+                <Link to="/loginpage">
+                  <button onClick={logout}>Log Out</button>
+                </Link>
               </div>
             )}
           </div>

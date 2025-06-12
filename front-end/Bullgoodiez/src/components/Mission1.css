@@ -1,5 +1,4 @@
 .mission {
-    background-color: #f2e7dd;
     text-align: center;
     padding: 60px 20px;
   }
@@ -32,5 +31,79 @@
 }
 
 .admin-button:hover {
+  background-color: #7b3e38;
+}
+
+.contact-us {
+  text-align: center;
+  padding: 1px 20px;
+}
+
+.contact-us h2 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #292421;
+  margin-bottom: 10px;
+}
+
+.contact-subtitle {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.contact-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.contact-box {
+ background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-icon {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #a3534a;
+}
+
+.contact-box h3 {
+  font-size: 20px;
+  color: #292421;
+  margin-bottom: 10px;
+}
+
+.contact-box p {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.contact-box a {
+  font-size: 13px;
+  color: #0d63c5;
+  margin-bottom: 15px;
+}
+
+.contact-button {
+  padding: 9px 16px;
+  background-color: #a3534a;
+  color: #f8f8f8;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
   background-color: #7b3e38;
 }

@@ -54,6 +54,7 @@ function Navbar() {
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <Link to="/"><img src="webcon.png" alt="BullGoods Logo" /></Link>
 
+ <div className="navbar-right">
       <ul className="navbar-menu">
         <li>
           <a
@@ -73,9 +74,6 @@ function Navbar() {
         </li>
         <li>
           <a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a>
-        </li>
-        <li>
-          <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>
         </li>
       </ul>
 
@@ -99,6 +97,7 @@ function Navbar() {
           <button className="navbar-button">Log In</button>
         </Link>
       )}
+      </div>
     </nav>
   );
 }

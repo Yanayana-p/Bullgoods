@@ -41,6 +41,9 @@ import Pfooter from './dproductpage/Pfooter';
 import Alogin from './adminlogin/alogin';
 import Apage from './adminpage/apage';
 
+//RemoveProduct
+import RemoveProduct from "./removeproduct/removeproduct";
+
 import SellingPageRegis from './sellingpageregis/SellingPagerRegis';
 
 import WishlistPage from './wishlistpage/wishlistpage';
@@ -188,6 +191,7 @@ function App() {
               <Route path ="/wishlist" element ={<WishlistPage />} />
               <Route path="/adminlogin" element={<AdminLogin />} /> 
               <Route path="/adminpage" element={<AdminPage />} /> 
+              <Route path="/removeproduct" element={<RemoveProduct />} />
             </Routes>
           </Router>
         </ProductProvider>

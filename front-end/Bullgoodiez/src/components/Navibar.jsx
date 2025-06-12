@@ -12,9 +12,8 @@ function Navibar() {
 
       <nav className={menuOpen ? 'open' : ''}>
         <ul>
-          <li><Link to="/">HOME</Link></li>
-          <li><Link to="#about">ABOUT US</Link></li>
-          <li><Link to="#contact">CONTACT US</Link></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="#about">About Us</Link></li>
         </ul>
       </nav>
 

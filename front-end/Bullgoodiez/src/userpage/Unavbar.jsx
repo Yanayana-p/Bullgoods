@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; // ✅ make sure this path is correct
 import { FaUserCircle } from 'react-icons/fa';
 import './Unavbar.css';
@@ -11,7 +12,7 @@ function Unavbar() {
   const dropdownRef = useRef(null);
 
   const { user, logout } = useAuth(); // ✅ get auth state
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,15 +54,13 @@ function Unavbar() {
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <Link to="/"><img src="webcon.png" alt="BullGoods Logo" /></Link>
 
+<div className="navbar-right">
       <ul className="navbar-menu">
         <li>
           <Link to="/firstpage" className={activeSection === 'hero' ? 'active' : ''}>Home</Link>
         </li>
         <li>
           <Link to="/#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</Link>
-        </li>
-        <li>
-          <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>
         </li>
       </ul>
 
@@ -75,7 +74,6 @@ function Unavbar() {
           />
           {showDropdown && (
             <div className="dropdown-menu">
-              <button onClick={() => navigate('/userpage')}>Go to User</button>
               <button onClick={logout}>Log Out</button>
             </div>
           )}
@@ -85,6 +83,7 @@ function Unavbar() {
           <button className="navbar-button">Log In</button>
         </Link>
       )}
+    </div>
     </nav>
   );
 }

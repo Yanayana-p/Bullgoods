@@ -54,15 +54,13 @@ function Snavbar() {
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <Link to="/"><img src="webcon.png" alt="BullGoods Logo" /></Link>
 
+<div className="navbar-right">
       <ul className="navbar-menu">
         <li>
           <Link to="/firstpage" className={activeSection === 'hero' ? 'active' : ''}>Home</Link>
         </li>
         <li>
           <Link to="/#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</Link>
-        </li>
-        <li>
-          <a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a>
         </li>
         <li>
           <Link to="/addproduct" className="add-product-link">Add Product</Link>
@@ -89,6 +87,7 @@ function Snavbar() {
           <button className="navbar-button">Log In</button>
         </Link>
       )}
+      </div>
     </nav>
   );
 }

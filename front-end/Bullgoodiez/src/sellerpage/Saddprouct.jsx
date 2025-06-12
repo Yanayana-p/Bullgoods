@@ -51,6 +51,11 @@ export default function AddProductPage() {
     navigate('/firstpage');
   };
 
+  const handleRemoveProduct = () => {
+    navigate('/removeproduct');
+  };
+
+
   return (
     <>
       <Unavbar />
@@ -58,8 +63,8 @@ export default function AddProductPage() {
         <div className="header">
           <h2>Add New Product</h2>
           <div className="action-buttons">
-            <button className="save-draft">Save Draft</button>
             <button className="add-product" onClick={handleAddProduct}>Add Product</button>
+            <button className="save-draft" onClick={handleRemoveProduct}>Remove Product</button>
           </div>
         </div>
 
@@ -145,7 +150,6 @@ export default function AddProductPage() {
                 <option value="Appliances">Appliances</option>
                 <option value="Subscriptions">Subscriptions</option>
               </select>
-              <button className="add-category">Add Category</button>
             </div>
           </div>
         </div>

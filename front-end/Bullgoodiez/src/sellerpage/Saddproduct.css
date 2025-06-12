@@ -11,6 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -29,8 +30,8 @@
 }
 
 .save-draft {
-  background-color: black;
-  border: 1px solid #ccc;
+  background-color: #d29c87;
+  color: black;
 }
 
 .add-product {

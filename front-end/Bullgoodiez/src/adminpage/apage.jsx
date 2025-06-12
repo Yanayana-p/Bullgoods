@@ -39,7 +39,7 @@ const Apage = () => {
           <button>Products</button>
         </div>
 
-        <div className="action-buttons">
+        <div className="nav-menu">
           <button>UPDATE</button>
           <button>DELETE</button>
         </div>
@@ -52,27 +52,35 @@ const Apage = () => {
         </div>
 
         <div className="admin-table">
-          <div className="table-header">
-            <span>User ID</span>
-            <span>First Name</span>
-            <span>Last Name</span>
-            <span>Email</span>
-            <span>Phone Number</span>
-            <span>Password</span>
-          </div>
-
-          {/* ✅ Render user rows */}
-          {users.map((user, index) => (
-            <div className="table-row" key={index}>
-              <span>{user.studentId}</span>
-              <span>{user.firstName}</span>
-              <span>{user.lastName}</span>
-              <span>{user.email}</span>
-              <span>{user.phoneNumber}</span>
-              <span>{user.password}</span> {/* Optional: Hide in production */}
-            </div>
-          ))}
-        </div>
+  <table className="user-table">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Password</th>
+        <th>Role</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {users.map((user, index) => (
+        <tr key={index}>
+          <td>{user.studentId}</td>
+          <td>{user.firstName}</td>
+          <td>{user.lastName}</td>
+          <td>{user.email}</td>
+          <td>{user.phoneNumber}</td>
+          <td>{user.password}</td>
+          <td>{user.Role}</td>
+          <td>{user.TImestamp}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
       </main>
     </div>
   );
