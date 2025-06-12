@@ -3,7 +3,7 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './Fproducts.css';
 import { useProducts } from '../context/ProductContext';
-import { useWishlist } from '../context/WishlistContext';  // <-- Import wishlist hook
+import { useWishlist } from '../context/WishlistContext';
 import Fcategory from './Fcategory';
 
 const defaultProducts = [
@@ -20,10 +20,7 @@ const defaultProducts = [
 ];
 
 function Fproducts({ searchQuery = '' }) {
-  const context = useProducts();
-  const addedProducts = context?.products || [];
-
-  // Use wishlist context here
+  const { products: addedProducts } = useProducts();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -51,18 +48,21 @@ function Fproducts({ searchQuery = '' }) {
       return matchesCategory && matchesSearch;
     });
 
-    // Set liked based on whether product is in wishlist
-    const updated = filtered.map(product => ({
+    // Update liked status based on wishlist
+    const updated = filtered.map((product) => ({
       ...product,
-      liked: wishlist.some(item => item.id === product.id),
+      liked: wishlist.some((item) => item.id === product.id),
     }));
 
+    // Save to localStorage
+    localStorage.setItem('allProducts', JSON.stringify(updated));
+
     setProducts(updated);
-  }, [addedProducts, selectedCategory, searchQuery, wishlist]); // <-- re-run when wishlist changes
+  }, [addedProducts, selectedCategory, searchQuery, wishlist]);
 
   const toggleLike = (id, e) => {
     e.preventDefault();
-    e.stopPropagation(); // prevent Link navigation when clicking heart
+    e.stopPropagation();
 
     const product = products.find(p => p.id === id);
     if (!product) return;
@@ -73,23 +73,6 @@ function Fproducts({ searchQuery = '' }) {
       addToWishlist(product);
     }
   };
-
-const Fproducts = ({ product }) => {
-  const { addToWishlist } = useWishlist();
-  const user = JSON.parse(localStorage.getItem('user')); // Or however you're storing logged in user
-
-  const handleHeartClick = () => {
-    if (user?.email) {
-      addToWishlist(product, user.email);
-    } else {
-      alert("You must be logged in to use wishlist");
-    }
-  };
-
-  return (
-    <button onClick={handleHeartClick}>❤️</button>
-  );
-};
 
   return (
     <div className="fproducts-container">
@@ -103,12 +86,11 @@ const Fproducts = ({ product }) => {
               key={product.id}
               className="product-card"
             >
-              {product.images && product.images.length > 0 ? (
-                <AutoImageCarousel images={product.images || [product.image]} />
-              ) : (
-                <img src={product.image} alt={product.name} className="product-image" />
-              )}
-              
+              <img
+                src={product.image}
+                alt={product.name}
+                className="product-image"
+              />
               <div
                 className="heart-icon"
                 onClick={(e) => toggleLike(product.id, e)}

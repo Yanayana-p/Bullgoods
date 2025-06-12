@@ -9,6 +9,21 @@ const Apage = () => {
   const [view, setView] = useState('user'); // 'user', 'wishlist', or 'products'
   const navigate = useNavigate();
   const { wishlistUpdated } = useWishlist();
+  const [localProducts, setLocalProducts] = useState([]);
+
+  useEffect(() => {
+  if (view === 'products') {
+    const stored = localStorage.getItem('allProducts');
+    if (stored) {
+      try {
+        setLocalProducts(JSON.parse(stored));
+      } catch (e) {
+        console.error('Invalid product data in localStorage');
+      }
+    }
+  }
+}, [view]);
+
 
   const handleLogout = () => {
     const confirmLogout = window.confirm('Are you sure you want to log out?');
@@ -69,48 +84,56 @@ const Apage = () => {
     }
   };
 
-  const renderTableRows = () => {
-    return users.map((user, index) => {
-      switch (view) {
-        case 'wishlist':
-          return (
-            <tr key={index}>
-              <td>{user.studentId}</td>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>
-  {user.wishlist && user.wishlist.length > 0
-    ? user.wishlist.map(item => item.name).join(', ')
-    : 'N/A'}
-</td>
+const renderTableRows = () => {
+  return users.map((user, index) => {
+    switch (view) {
+      case 'wishlist':
+        return (
+          <tr key={index}>
+            <td>{user.studentId}</td>
+            <td>{user.firstName}</td>
+            <td>{user.lastName}</td>
+            <td>
+              {user.wishlist && user.wishlist.length > 0
+                ? user.wishlist.map(item => item.name).join(', ')
+                : 'N/A'}
+            </td>
+          </tr>
+        );
 
-            </tr>
-          );
-        case 'products':
-          return (
-            <tr key={index}>
-              <td>{user.studentId}</td>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.products ? user.products.join(', ') : 'N/A'}</td>
-            </tr>
-          );
-        default:
-          return (
-            <tr key={index}>
-              <td>{user.studentId}</td>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.email}</td>
-              <td>{user.phoneNumber}</td>
-              <td>{user.password}</td>
-              <td>{user.role}</td>
-              <td>{user.timestamp}</td>
-            </tr>
-          );
-      }
-    });
-  };
+      case 'products': {
+  // 🔄 Pull user details from localStorage
+  const studentId = localStorage.getItem('registeredStudentId') || '-';
+  const firstName = localStorage.getItem('registeredFirstName') || '-';
+  const lastName = localStorage.getItem('registeredLastName') || '-';
+
+  return localProducts.map((product, index) => (
+    <tr key={index}>
+      <td>{studentId}</td>
+      <td>{firstName}</td>
+      <td>{lastName}</td>
+      <td>{product.name} - {product.category}</td>
+    </tr>
+  ));
+}
+
+      default:
+        return (
+          <tr key={index}>
+            <td>{user.studentId}</td>
+            <td>{user.firstName}</td>
+            <td>{user.lastName}</td>
+            <td>{user.email}</td>
+            <td>{user.phoneNumber}</td>
+            <td>{user.password}</td>
+            <td>{user.role}</td>
+            <td>{user.timestamp}</td>
+          </tr>
+        );
+    }
+  });
+};
+
 
   if (!isLoggedIn) return null;
 
