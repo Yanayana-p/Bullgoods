@@ -52,9 +52,6 @@ function Fhome() {
       <p className="day-date">
         <span className="current-day">{currentDay}</span>, <span className="full-date">{fullDate}</span>
       </p>
-
-      <img src="/searchbar.png" alt="Description" className="search-image" />
-
       <section className="search-section">
         <form onSubmit={handleSearchSubmit} className="search-wrapper">
           <input

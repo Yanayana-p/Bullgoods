@@ -47,20 +47,12 @@
     font-size: 24px;
     color: #333;
 }
-
-.search-image {
-    margin-top: 30px;
-    width: 250px;  
-    height: auto;  
-    object-fit: contain; 
-    margin-bottom: 0px;
-  }
   
 .search-section {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1px;
+    margin-top: 20px;
     width: 100%;
 }
 
@@ -89,7 +81,6 @@
 
 .search-button {
     position: absolute;
-    right: 17px;
     top: 50%;
     transform: translateY(-50%);
     background-color: transparent;

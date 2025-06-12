@@ -60,7 +60,7 @@ function Fnavbar1() {
           <div className="navbar-user" ref={dropdownRef}>
             <FaUserCircle
               className="user-icon"
-              size={30}
+              size={37}
               onClick={handleUserClick}
               style={{ cursor: 'pointer', color: '#f48c8c' }}
             />
