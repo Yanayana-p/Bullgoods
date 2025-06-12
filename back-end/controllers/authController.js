@@ -57,24 +57,59 @@ const signupUser = (req, res) => {
     return res.status(409).json({ message: 'User already exists with that email.' });
   }
 
-  const newUser = { firstName, lastName, studentId, phoneNumber, email, password };
+  const timestamp = new Date().toISOString();
+  const role = 'user';
+
+  const newUser = {
+    firstName,
+    lastName,
+    studentId,
+    phoneNumber,
+    email,
+    password,
+    isSeller: false,
+    timestamp,
+    role // ✅ now included
+  };
+
   users.push(newUser);
+
+  console.log('Current users:', users);
 
   return res.status(201).json({
     message: 'User registered successfully!',
-    user: { firstName, lastName, studentId, phoneNumber, email }, // no password!
+    user: {
+      firstName,
+      lastName,
+      studentId,
+      phoneNumber,
+      email,
+      isSeller: false,
+      role,
+      timestamp
+    }
   });
 };
+
+
 
 // ✅ New function to get all users
 const getAllUsers = (req, res) => {
   try {
-    res.status(200).json(users); // ✅ send the in-memory users array
+    // Dynamically assign role based on isSeller
+    const formattedUsers = users.map(user => ({
+      ...user,
+      role: user.isSeller ? 'seller' : 'user',
+      timestamp: user.timestamp || 'N/A', // fallback if missing
+    }));
+
+    res.status(200).json(formattedUsers);
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ message: 'Failed to retrieve users' });
   }
 };
+
 
 
 module.exports = {

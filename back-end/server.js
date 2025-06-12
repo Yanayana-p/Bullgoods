@@ -17,7 +17,7 @@ const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
 const userRoutes = require('./routes/userRoutes');
-app.use('/api/users', userRoutes); // now you can call /api/users/update-profile
+app.use('/api/user', userRoutes); // now you can call /api/users/update-profile
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -37,46 +37,66 @@ useEffect(() => {
 }, [navigate]);
 
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   const storedUserStr = localStorage.getItem("user");
 
-  // First-time registration
-  if (!storedUserStr || storedUserStr === "undefined") {
-    if (!firstName || !lastName || !phoneNumber) {
-      setErrorMessage("Missing profile data. Please refresh and try again.");
-      return;
-    }
+  try {
+    // If no stored user: first-time registration
+    if (!storedUserStr || storedUserStr === "undefined") {
+      if (!firstName || !lastName || !phoneNumber) {
+        setErrorMessage("Missing profile data. Please refresh and try again.");
+        return;
+      }
 
-    const newUser = {
-      studentId,
-      phoneNumber,
-      firstName,
-      lastName,
-      email,
-      isSeller: true, // ✅ New flag
-      password: ''
-    };
+      // Step 1: Register user
+      const registerResponse = await fetch("/api/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ studentId, email, firstName, lastName, phoneNumber }),
+      });
 
+      const registerResult = await registerResponse.json();
 
-    try {
+      if (!registerResponse.ok) {
+        setErrorMessage(registerResult.message || "Failed to register.");
+        return;
+      }
+
+      // Step 2: Set seller role
+      const sellerResponse = await fetch("/api/user/set-seller", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ studentId, email }),
+      });
+
+      const sellerResult = await sellerResponse.json();
+
+      if (!sellerResponse.ok) {
+        setErrorMessage(sellerResult.message || "Failed to set seller role.");
+        return;
+      }
+
+      const newUser = {
+        studentId,
+        email,
+        firstName,
+        lastName,
+        phoneNumber,
+        isSeller: true,
+        password: '',
+      };
+
       localStorage.setItem("user", JSON.stringify(newUser));
       login(newUser);
       navigate("/sellerpage");
-    } catch (err) {
-      console.error("Failed to save new user:", err);
-      setErrorMessage("Something went wrong while saving. Please try again.");
+      return;
     }
 
-    return;
-  }
-
-  // Returning user
-  try {
+    // Returning user
     const registeredUser = JSON.parse(storedUserStr);
 
-    // Validate structure of saved user
     if (
       !registeredUser ||
       !registeredUser.email ||
@@ -89,23 +109,36 @@ const handleSubmit = (e) => {
     }
 
     if (
-    email.trim() === registeredUser.email &&
-    studentId.trim() === registeredUser.studentId
-  ) {
-    const updatedUser = { ...registeredUser, isSeller: true }; // ✅ ADD isSeller
-    localStorage.setItem("user", JSON.stringify(updatedUser)); // ✅ Save to localStorage
-    login(updatedUser); // ✅ Update context
-    navigate("/sellerpage");
-  } else {
+      email.trim() === registeredUser.email &&
+      studentId.trim() === registeredUser.studentId
+    ) {
+      const response = await fetch("/api/user/set-seller", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ studentId, email }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setErrorMessage(result.message || "Failed to set seller role");
+        return;
+      }
+
+      const updatedUser = { ...registeredUser, isSeller: true };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      login(updatedUser);
+      navigate("/sellerpage");
+    } else {
       setErrorMessage("Your Student ID or Email is incorrect. Please try again.");
     }
   } catch (err) {
-    console.error("Error parsing user from localStorage", err);
-    // Reset broken localStorage entry
+    console.error("Error in handleSubmit", err);
     localStorage.removeItem("user");
-    setErrorMessage("Your data was corrupted. Please re-register.");
+    setErrorMessage("Something went wrong. Please try again.");
   }
 };
+
 
 
   return (

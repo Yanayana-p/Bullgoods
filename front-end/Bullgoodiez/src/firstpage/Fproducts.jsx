@@ -74,6 +74,23 @@ function Fproducts({ searchQuery = '' }) {
     }
   };
 
+const Fproducts = ({ product }) => {
+  const { addToWishlist } = useWishlist();
+  const user = JSON.parse(localStorage.getItem('user')); // Or however you're storing logged in user
+
+  const handleHeartClick = () => {
+    if (user?.email) {
+      addToWishlist(product, user.email);
+    } else {
+      alert("You must be logged in to use wishlist");
+    }
+  };
+
+  return (
+    <button onClick={handleHeartClick}>❤️</button>
+  );
+};
+
   return (
     <div className="fproducts-container">
       <Fcategory selectedCategory={selectedCategory} onCategoryClick={setSelectedCategory} />

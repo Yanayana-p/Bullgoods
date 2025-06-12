@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  margin-top: -50px;
 }
 
 .admin-left-panel h2 {
@@ -30,12 +31,14 @@
 .admin-right-panel {
   margin-top: 0;
   background-color: #fdf4ef;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
   height: 100%;
   width: 100%;
   max-width: 700px;
-  padding: 60px 40px;
+  padding: 50px 40px;
   box-shadow: -5px 0 10px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
@@ -56,7 +59,7 @@ h1 {
   display: flex;
   flex-direction: column;
   text-align: left;
-  margin-top: 130px;
+  margin-top: 30px;
 }
 
 .login-form label {
