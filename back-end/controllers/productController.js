@@ -70,15 +70,14 @@ const getProductsBySeller = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log('Attempting to delete product with id:', id)
     const success = await productStore.deleteProduct(id);
-    
     if (success) {
       res.json({ message: 'Product deleted successfully' });
     } else {
       res.status(404).json({ message: 'Product not found' });
     }
   } catch (error) {
-    console.error('Error deleting product:', error);
     res.status(500).json({ message: 'Error deleting product' });
   }
 };

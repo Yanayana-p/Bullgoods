@@ -25,6 +25,8 @@ export default function AddProductPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
+  const [lastAddedProductId, setLastAddedProductId] = useState(null);
+
   // ✅ Load first and last name from localStorage
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -106,6 +108,7 @@ export default function AddProductPage() {
         });
         setMainImage(null);
         setThumbnails([]);
+        setLastAddedProductId(response.data.id);
         navigate('/firstpage');
       }
     } catch (error) {
@@ -125,7 +128,9 @@ export default function AddProductPage() {
           <h2>Add New Product</h2>
           <div className="action-buttons">
             <button className="add-product" onClick={handleAddProduct}>Add Product</button>
-            <button className="save-draft" onClick={handleRemoveProduct}>Remove Product</button>
+            <button className="save-draft" onClick={handleRemoveProduct}>
+  Remove Product
+</button>
           </div>
         </div>
 

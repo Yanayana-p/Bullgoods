@@ -13,4 +13,7 @@ router.get('/seller', getProductsBySeller);
 
 router.get('/:id', require('../controllers/productController').getProductById);
 
+const { deleteProduct } = require('../controllers/productController');
+router.delete('/:id', deleteProduct);
+
 module.exports = router; 
