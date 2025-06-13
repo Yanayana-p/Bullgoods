@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './alogin.css';
 
 const Alogin = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    navigate('/adminpage');
+    setError('');
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/adminlogin', { email, password });
+      if (response.data && response.data.success) {
+        localStorage.setItem('admin', JSON.stringify(response.data.admin));
+        navigate('/adminpage');
+      } else {
+        alert("You're not an admin!");
+      }
+    } catch (err) {
+      alert("You're not an admin!");
+    }
   };
 
   return (
@@ -23,12 +38,13 @@ const Alogin = () => {
           <h1>Admin Log In</h1>
           <form className="login-form" onSubmit={handleLogin}>
             <label>Email Address</label>
-            <input type="email" placeholder="Enter your email" required />
+            <input type="email" placeholder="Enter your email" value={email} onChange={e => setEmail(e.target.value)} required />
 
             <label>Password</label>
-            <input type="password" placeholder="Enter your password" required />
+            <input type="password" placeholder="Enter your password" value={password} onChange={e => setPassword(e.target.value)} required />
 
             <button type="submit">Log in</button>
+            {error && <div className="error-message">{error}</div>}
           </form>
 
           <p className="connect-text">or connect with us</p>

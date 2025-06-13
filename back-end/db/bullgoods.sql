@@ -29,3 +29,14 @@ CREATE TABLE products (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (seller_id) REFERENCES users(student_id)
 );
+
+-- Admin login table
+CREATE TABLE IF NOT EXISTS adminlogin (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  adminEmail VARCHAR(100) NOT NULL UNIQUE,
+  adminPassword VARCHAR(255) NOT NULL
+);
+
+INSERT INTO adminlogin (adminEmail, adminPassword)
+VALUES ('bullgoods@admin.com', 'admin123')
+ON DUPLICATE KEY UPDATE adminPassword = VALUES(adminPassword);
