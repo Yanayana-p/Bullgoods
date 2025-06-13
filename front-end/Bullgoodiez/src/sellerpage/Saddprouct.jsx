@@ -4,18 +4,23 @@ import Unavbar from '../userpage/Unavbar';
 import Ffooter from '../firstpage/Ffooter';
 import { useProducts } from '../context/ProductContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function AddProductPage() {
   const { addProduct } = useProducts();
   const navigate = useNavigate();
+  const [studentId, setStudentId] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    category: '',
+    image_url: ''
+  });
 
   const [mainImage, setMainImage] = useState(null);
   const [thumbnails, setThumbnails] = useState([]);
-
-  const [name, setName] = useState('');
-  const [desc, setDesc] = useState('');
-  const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('Accessories');
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -29,32 +34,94 @@ export default function AddProductPage() {
     }
   }, []);
 
+  useEffect(() => {
+    // Get student ID from localStorage
+    const storedStudentId = localStorage.getItem('studentId');
+    if (storedStudentId) {
+      setStudentId(storedStudentId);
+    }
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     if (!files.length) return;
+    
+    // Create URLs for preview
     const imageUrls = files.map(file => URL.createObjectURL(file));
     setMainImage(imageUrls[0]);
     setThumbnails(prev => [...prev, ...imageUrls]);
+
+    // Store the first image name in formData
+    setFormData(prevState => ({
+      ...prevState,
+      image_url: files[0].name
+    }));
   };
 
-  const handleAddProduct = () => {
-    const newProduct = {
-      id: Date.now(),
-      name,
-      description: desc,
-      price: Number(price),
-      category,
-      image: mainImage || thumbnails[0],
-      owner: `${firstName} ${lastName}`, // ✅ Include seller name
-    };
-    addProduct(newProduct);
-    navigate('/firstpage');
+  const handleAddProduct = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+
+    // Debug log
+    console.log('Form Data:', formData);
+    console.log('Student ID:', studentId);
+    console.log('Seller Name:', `${firstName} ${lastName}`);
+
+    // Validate required fields
+    if (!formData.name || !formData.price || !formData.category) {
+      setErrorMessage('Please fill in all required fields');
+      return;
+    }
+
+    try {
+      const productData = {
+        ...formData,
+        seller_id: studentId,
+        seller_name: `${firstName} ${lastName}`,
+        price: parseFloat(formData.price)
+      };
+
+      // Debug log
+      console.log('Sending product data:', productData);
+
+      const response = await axios.post('http://localhost:5000/api/products/add', productData);
+
+      // Debug log
+      console.log('Server response:', response.data);
+
+      if (response.data) {
+        // Clear form
+        setFormData({
+          name: '',
+          description: '',
+          price: '',
+          category: '',
+          image_url: ''
+        });
+        setMainImage(null);
+        setThumbnails([]);
+        
+        // Navigate to first page
+        navigate('/firstpage');
+      }
+    } catch (error) {
+      console.error('Error adding product:', error);
+      console.error('Error details:', error.response?.data);
+      setErrorMessage(error.response?.data?.message || 'Error adding product. Please try again.');
+    }
   };
 
   const handleRemoveProduct = () => {
     navigate('/removeproduct');
   };
-
 
   return (
     <>
@@ -86,17 +153,17 @@ export default function AddProductPage() {
                 <strong>Seller:</strong> {`${firstName} ${lastName}`}
               </div>
 
-
-
               <input
                 placeholder="Name Product"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={handleChange}
+                name="name"
               />
               <textarea
                 placeholder="Description Product"
-                value={desc}
-                onChange={(e) => setDesc(e.target.value)}
+                value={formData.description}
+                onChange={handleChange}
+                name="description"
               />
             </div>
 
@@ -104,8 +171,9 @@ export default function AddProductPage() {
               <h3>Pricing</h3>
               <input
                 placeholder="Base Pricing"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={formData.price}
+                onChange={handleChange}
+                name="price"
               />
             </div>
           </div>
@@ -141,8 +209,9 @@ export default function AddProductPage() {
             <div className="section">
               <h3>Category</h3>
               <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={formData.category}
+                onChange={handleChange}
+                name="category"
               >
                 <option value="Food">Food</option>
                 <option value="Clothes">Clothes</option>

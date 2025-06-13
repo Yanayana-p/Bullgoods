@@ -15,3 +15,17 @@ CREATE TABLE users (
   is_seller BOOLEAN DEFAULT FALSE,
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Products table
+CREATE TABLE products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price DECIMAL(10, 2) NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  image_url TEXT,
+  seller_id VARCHAR(20) NOT NULL,
+  seller_name VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (seller_id) REFERENCES users(student_id)
+);

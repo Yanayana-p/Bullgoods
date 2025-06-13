@@ -28,6 +28,9 @@ function LoginPage() {
 
     // Use login from AuthContext
     login(data.user);
+    // Store studentId and user in localStorage
+    localStorage.setItem('studentId', data.user.student_id);
+    localStorage.setItem('user', JSON.stringify(data.user));
     alert('Login Successful!');
     // Save token if you want: localStorage.setItem('token', data.token);
     navigate('/firstpage');
