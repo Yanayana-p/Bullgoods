@@ -44,10 +44,11 @@ function SellingPageRegis() {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/user/set-seller", {
+      // Set seller role and status
+      const response = await fetch("http://localhost:5000/api/user/set-seller", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ studentId, email }),
+        body: JSON.stringify({ email }),
       });
 
       const result = await response.json();
@@ -63,7 +64,8 @@ function SellingPageRegis() {
         firstName,
         lastName,
         phoneNumber,
-        isSeller: true
+        isSeller: true,
+        role: "seller"
       };
 
       localStorage.setItem("user", JSON.stringify(updatedUser));

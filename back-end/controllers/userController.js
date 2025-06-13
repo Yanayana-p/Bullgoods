@@ -58,7 +58,10 @@ const setSellerRole = async (req, res) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    await pool.query('UPDATE users SET is_seller = ? WHERE email = ?', [true, email]);
+    await pool.query(
+      'UPDATE users SET role = ?, is_seller = ? WHERE email = ?', 
+      ['seller', true, email]
+    );
 
     const [updatedRows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
 
