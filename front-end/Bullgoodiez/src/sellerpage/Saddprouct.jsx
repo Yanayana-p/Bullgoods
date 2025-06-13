@@ -42,6 +42,11 @@ export default function AddProductPage() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("Main image preview URL:", mainImage);
+  }, [mainImage]);
+  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -50,55 +55,48 @@ export default function AddProductPage() {
     }));
   };
 
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
-    
-    // Create URLs for preview
-    const imageUrls = files.map(file => URL.createObjectURL(file));
-    setMainImage(imageUrls[0]);
-    setThumbnails(prev => [...prev, ...imageUrls]);
-
-    // Store the first image name in formData
-    setFormData(prevState => ({
-      ...prevState,
-      image_url: files[0].name
-    }));
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+  
+    const formDataUpload = new FormData();
+    formDataUpload.append('image', file);
+  
+    try {
+      const response = await axios.post('http://localhost:5000/api/upload', formDataUpload, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setFormData(prev => ({
+        ...prev,
+        image_url: response.data.filename // store only the filename
+      }));
+      setMainImage(URL.createObjectURL(file)); // for preview
+    } catch (err) {
+      setErrorMessage('Image upload failed');
+    }
   };
-
+  
   const handleAddProduct = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-
-    // Debug log
-    console.log('Form Data:', formData);
-    console.log('Student ID:', studentId);
-    console.log('Seller Name:', `${firstName} ${lastName}`);
-
-    // Validate required fields
+  
     if (!formData.name || !formData.price || !formData.category) {
       setErrorMessage('Please fill in all required fields');
       return;
     }
-
+  
     try {
+      console.log('Submitting product with image_url:', formData.image_url);
       const productData = {
         ...formData,
         seller_id: studentId,
         seller_name: `${firstName} ${lastName}`,
         price: parseFloat(formData.price)
       };
-
-      // Debug log
-      console.log('Sending product data:', productData);
-
+  
       const response = await axios.post('http://localhost:5000/api/products/add', productData);
-
-      // Debug log
-      console.log('Server response:', response.data);
-
+  
       if (response.data) {
-        // Clear form
         setFormData({
           name: '',
           description: '',
@@ -108,13 +106,9 @@ export default function AddProductPage() {
         });
         setMainImage(null);
         setThumbnails([]);
-        
-        // Navigate to first page
         navigate('/firstpage');
       }
     } catch (error) {
-      console.error('Error adding product:', error);
-      console.error('Error details:', error.response?.data);
       setErrorMessage(error.response?.data?.message || 'Error adding product. Please try again.');
     }
   };
@@ -197,7 +191,6 @@ export default function AddProductPage() {
                     <input
                       type="file"
                       accept="image/*"
-                      multiple
                       onChange={handleImageUpload}
                       style={{ display: 'none' }}
                     />

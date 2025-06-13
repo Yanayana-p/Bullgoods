@@ -1,5 +1,17 @@
 const productStore = require('../models/productStore');
 
+
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productStore.getProductById(id);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching product' });
+  }
+};
+
 // Add new product
 const addProduct = async (req, res) => {
   try {
@@ -75,5 +87,6 @@ module.exports = {
   addProduct,
   getAllProducts,
   getProductsBySeller,
-  deleteProduct
+  deleteProduct,
+  getProductById
 }; 

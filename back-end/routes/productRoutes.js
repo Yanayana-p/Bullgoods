@@ -11,4 +11,6 @@ router.get('/', getAllProducts);
 // Get products by seller
 router.get('/seller', getProductsBySeller);
 
+router.get('/:id', require('../controllers/productController').getProductById);
+
 module.exports = router; 

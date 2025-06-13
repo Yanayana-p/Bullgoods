@@ -2,11 +2,21 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
+
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const uploadRoutes = require('./routes/uploadRoutes');
+app.use('/api/upload', uploadRoutes);
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

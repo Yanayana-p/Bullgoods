@@ -1,5 +1,6 @@
 const pool = require('./userStore');
 
+
 const productStore = {
   async addProduct(productData) {
     const { name, description, price, category, image_url, seller_id, seller_name } = productData;
@@ -45,6 +46,12 @@ const productStore = {
     } catch (error) {
       throw error;
     }
+  },
+
+  async getProductById(id) {
+    const query = 'SELECT * FROM products WHERE id = ?';
+    const [rows] = await pool.query(query, [id]);
+    return rows[0];
   }
 };
 

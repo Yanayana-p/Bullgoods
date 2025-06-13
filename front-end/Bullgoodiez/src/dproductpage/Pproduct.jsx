@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Pproduct.css';
 import { useParams } from 'react-router-dom'; // ✅ Get ID from route
 import { useWishlist } from '../context/WishlistContext';
@@ -21,18 +21,39 @@ function Pproduct() {
   const { id } = useParams();
   const productId = Number(id);
   const { products: addedProducts } = useProducts(); // ✅ Get added products from context
+  const [product, setProduct] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const { addToWishlist } = useWishlist();
 
   const allProducts = [...sampleProducts, ...addedProducts]; // ✅ Combine both sources
 
-  const product = allProducts.find(p => p.id === productId); // ✅ Match by ID
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProduct({
+            ...data,
+            image: data.image_url ? `http://localhost:5000/uploads/${data.image_url}` : '/default-product.jpg',
+          });
+        } else {
+          // fallback to sampleProducts if not found in DB
+          const fallback = sampleProducts.find(p => p.id === productId);
+          setProduct(fallback || null);
+        }
+      } catch (err) {
+        const fallback = sampleProducts.find(p => p.id === productId);
+        setProduct(fallback || null);
+      }
+    }
+    fetchProduct();
+  }, [productId]);
 
   if (!product) return <div className="product-not-found">Product not found</div>;
 
-  // Get seller name from localStorage
-  const storedFirstName = localStorage.getItem('registeredFirstName') || 'Unknown';
-  const storedLastName = localStorage.getItem('registeredLastName') || 'Seller';
+  // Get seller name from DB or fallback
+  const sellerName = product.seller_name || 'Unknown Seller';
 
   const handleAddToWishlist = () => {
     addToWishlist(product);
@@ -55,14 +76,11 @@ function Pproduct() {
         </div>
         <div className="details-section">
           <h2>{product.name}</h2>
-          <h3 className="price">₱ {product.price.toFixed(2)}</h3>
+          <h3 className="price">₱ {Number(product.price).toFixed(2)}</h3>
           <p>{product.description}</p>
-
-          {/* Seller info in plain text with Seller: bold */}
           <p>
-            <strong>Seller:</strong> {storedFirstName} {storedLastName}
+            <strong>Seller:</strong> {sellerName}
           </p>
-
           <div className="button-row">
             <button className="btn" onClick={handleAddToWishlist}>Add to Wishlist</button>
             <a href="https://www.facebook.com/slvjeo/" target="_blank" rel="noopener noreferrer">

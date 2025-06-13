@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './Fproducts.css';
-import { useProducts } from '../context/ProductContext';
 import { useWishlist } from '../context/WishlistContext';
 import Fcategory from './Fcategory';
 
@@ -20,45 +19,64 @@ const defaultProducts = [
 ];
 
 function Fproducts({ searchQuery = '' }) {
-  const { products: addedProducts } = useProducts();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
-
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const allProducts = [...defaultProducts, ...addedProducts];
+    async function fetchProducts() {
+      try {
+        const response = await fetch('http://localhost:5000/api/products');
+        const dbProducts = await response.json();
 
-    // Remove duplicates
-    const seen = new Set();
-    const uniqueProducts = allProducts.filter((product) => {
-      const key = `${product.name}-${product.category}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
+        // Map DB products to match the default product structure
+        const mappedDbProducts = dbProducts.map((product) => ({
+          ...product,
+          id: product.id, // DB id
+          name: product.name,
+          image: product.image_url
+  ? `http://localhost:5000/uploads/${product.image_url}`
+  : product.image || '/default-product.jpg',
+          liked: false,
+          category: product.category,
+        }));
 
-    // Filter by category and search
-    const filtered = uniqueProducts.filter((product) => {
-      const matchesCategory =
-        selectedCategory === 'All' || product.category === selectedCategory;
-      const matchesSearch = product.name
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
+        // Optionally merge with defaultProducts
+        const allProducts = [...defaultProducts, ...mappedDbProducts];
 
-    // Update liked status based on wishlist
-    const updated = filtered.map((product) => ({
-      ...product,
-      liked: wishlist.some((item) => item.id === product.id),
-    }));
+        // Remove duplicates
+        const seen = new Set();
+        const uniqueProducts = allProducts.filter((product) => {
+          const key = `${product.name}-${product.category}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
 
-    // Save to localStorage
-    localStorage.setItem('allProducts', JSON.stringify(updated));
+        // Filter by category and search
+        const filtered = uniqueProducts.filter((product) => {
+          const matchesCategory =
+            selectedCategory === 'All' || product.category === selectedCategory;
+          const matchesSearch = product.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+          return matchesCategory && matchesSearch;
+        });
 
-    setProducts(updated);
-  }, [addedProducts, selectedCategory, searchQuery, wishlist]);
+        // Update liked status based on wishlist
+        const updated = filtered.map((product) => ({
+          ...product,
+          liked: wishlist.some((item) => item.id === product.id),
+        }));
+
+        setProducts(updated);
+      } catch (err) {
+        setProducts(defaultProducts); // fallback
+      }
+    }
+
+    fetchProducts();
+  }, [selectedCategory, searchQuery, wishlist]);
 
   const toggleLike = (id, e) => {
     e.preventDefault();
