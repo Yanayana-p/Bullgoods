@@ -19,7 +19,20 @@ function SellerProfile() {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
+      fetch(`http://localhost:5000/api/auth/users/profile?email=${parsedUser.email}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.user) {
+            setUser(data.user); // ✅ This works because backend now sends camelCase keys
+          } else {
+            setUser(parsedUser); // fallback
+          }
+        })
+        .catch(err => {
+          console.error("Failed to fetch user from DB:", err);
+          setUser(parsedUser);
+        });
+
 
       if (parsedUser.role === 'seller') {
         fetch(`http://localhost:5000/api/products?sellerId=${parsedUser.studentId}`)
@@ -41,11 +54,12 @@ function SellerProfile() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/profile', {
+      const response = await fetch('http://localhost:5000/api/auth/users/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),
       });
+
 
       const data = await response.json();
 
