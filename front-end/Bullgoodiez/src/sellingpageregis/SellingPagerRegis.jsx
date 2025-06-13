@@ -3,115 +3,47 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./sellingpageregis.scss";
 
-
 function SellingPageRegis() {
   const [email, setEmail] = useState('');
   const [studentId, setStudentId] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
-useEffect(() => {
-  const storedUserStr = localStorage.getItem("user");
+  useEffect(() => {
+    const fetchUserFromDB = async () => {
+      try {
+        const storedUserStr = localStorage.getItem("user");
+        if (storedUserStr) {
+          const storedUser = JSON.parse(storedUserStr);
+          if (storedUser.email) {
+            const response = await fetch(
+              `http://localhost:5000/api/auth/users/profile?email=${encodeURIComponent(storedUser.email)}`
+            );
+            const data = await response.json();
 
-  if (!storedUserStr || storedUserStr === "undefined") return;
-
-  try {
-    const storedUser = JSON.parse(storedUserStr);
-
-    if (storedUser?.isSeller === true) {
-      navigate("/sellerpage"); // ✅ Already registered seller
-    } else {
-      // Prefill from existing user data
-      setFirstName(storedUser.firstName || '');
-      setLastName(storedUser.lastName || '');
-      setPhoneNumber(storedUser.phoneNumber || '');
-    }
-  } catch (err) {
-    console.error("Error parsing user in useEffect", err);
-    localStorage.removeItem("user");
-  }
-}, [navigate]);
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  const storedUserStr = localStorage.getItem("user");
-
-  try {
-    // If no stored user: first-time registration
-    if (!storedUserStr || storedUserStr === "undefined") {
-      if (!firstName || !lastName || !phoneNumber) {
-        setErrorMessage("Missing profile data. Please refresh and try again.");
-        return;
+            if (response.ok && data.user) {
+              setFirstName(data.user.firstName);
+              setLastName(data.user.lastName);
+              setPhoneNumber(data.user.phoneNumber);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
+    };
 
-      // Step 1: Register user
-      const registerResponse = await fetch("/api/user/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ studentId, email, firstName, lastName, phoneNumber }),
-      });
+    fetchUserFromDB();
+  }, []);
 
-      const registerResult = await registerResponse.json();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      if (!registerResponse.ok) {
-        setErrorMessage(registerResult.message || "Failed to register.");
-        return;
-      }
-
-      // Step 2: Set seller role
-      const sellerResponse = await fetch("/api/user/set-seller", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ studentId, email }),
-      });
-
-      const sellerResult = await sellerResponse.json();
-
-      if (!sellerResponse.ok) {
-        setErrorMessage(sellerResult.message || "Failed to set seller role.");
-        return;
-      }
-
-      const newUser = {
-        studentId,
-        email,
-        firstName,
-        lastName,
-        phoneNumber,
-        isSeller: true,
-        password: '',
-      };
-
-      localStorage.setItem("user", JSON.stringify(newUser));
-      login(newUser);
-      navigate("/sellerpage");
-      return;
-    }
-
-    // Returning user
-    const registeredUser = JSON.parse(storedUserStr);
-
-    if (
-      !registeredUser ||
-      !registeredUser.email ||
-      !registeredUser.studentId ||
-      !registeredUser.firstName ||
-      !registeredUser.lastName ||
-      !registeredUser.phoneNumber
-    ) {
-      throw new Error("Invalid user data");
-    }
-
-    if (
-      email.trim() === registeredUser.email &&
-      studentId.trim() === registeredUser.studentId
-    ) {
+    try {
       const response = await fetch("/api/user/set-seller", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -125,21 +57,23 @@ const handleSubmit = async (e) => {
         return;
       }
 
-      const updatedUser = { ...registeredUser, isSeller: true };
+      const updatedUser = {
+        studentId,
+        email,
+        firstName,
+        lastName,
+        phoneNumber,
+        isSeller: true
+      };
+
       localStorage.setItem("user", JSON.stringify(updatedUser));
       login(updatedUser);
       navigate("/sellerpage");
-    } else {
-      setErrorMessage("Your Student ID or Email is incorrect. Please try again.");
+    } catch (err) {
+      console.error("Error in handleSubmit", err);
+      setErrorMessage("Something went wrong. Please try again.");
     }
-  } catch (err) {
-    console.error("Error in handleSubmit", err);
-    localStorage.removeItem("user");
-    setErrorMessage("Something went wrong. Please try again.");
-  }
-};
-
-
+  };
 
   return (
     <div className="sellingpageregis-page">
@@ -152,7 +86,6 @@ const handleSubmit = async (e) => {
           <div className="login-box">
             <h2>Seller Registration</h2>
             <form onSubmit={handleSubmit}>
-
               <div className="input-group">
                 <span className="icon">👤</span>
                 <input
@@ -179,19 +112,18 @@ const handleSubmit = async (e) => {
                 <span className="icon">🧑</span>
                 <input
                   type="text"
-                  placeholder="First Name"
                   value={firstName}
+                  placeholder="First Name"
                   readOnly
                 />
               </div>
-
 
               <div className="input-group">
                 <span className="icon">🧑</span>
                 <input
                   type="text"
-                  placeholder="Last Name"
                   value={lastName}
+                  placeholder="Last Name"
                   readOnly
                 />
               </div>
@@ -200,8 +132,8 @@ const handleSubmit = async (e) => {
                 <span className="icon">📱</span>
                 <input
                   type="text"
-                  placeholder="Phone Number"
                   value={phoneNumber}
+                  placeholder="Phone Number"
                   readOnly
                 />
               </div>

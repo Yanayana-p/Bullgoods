@@ -10,49 +10,53 @@ function SignupPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch('http://localhost:5000/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          studentId,
+          phoneNumber,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || 'Signup failed');
+        return;
+      }
+
+      // ✅ Save to localStorage
+      localStorage.setItem("user", JSON.stringify(data.user || {
         firstName,
         lastName,
         studentId,
-        phoneNumber,
         email,
-        password,
-      }),
-    });
+        phoneNumber,
+      }));
+      localStorage.setItem("registeredStudentEmail", email);
+      localStorage.setItem("registeredStudentId", studentId);
+      localStorage.setItem("registeredFirstName", firstName);
+      localStorage.setItem("registeredLastName", lastName);
+      localStorage.setItem("registeredPhoneNumber", phoneNumber);
+      localStorage.setItem("registeredPassword", password);
 
-    const data = await response.json();
+      alert('Signup successful!');
+      window.location.href = '/loginpage'; // or useNavigate() if needed
 
-    if (!response.ok) {
-      alert(data.message || 'Signup failed');
-      return;
+    } catch (err) {
+      console.error('Signup error:', err);
+      alert('Failed to connect to server');
     }
-
-    // ✅ Store user info in localStorage
-    localStorage.setItem('user', JSON.stringify(data.user));
-
-    alert('Signup successful!');
-    localStorage.setItem("registeredStudentEmail", email);
-    localStorage.setItem("registeredStudentId", studentId);
-    localStorage.setItem("registeredFirstName", firstName);
-    localStorage.setItem("registeredLastName", lastName);
-    localStorage.setItem("registeredPhoneNumber", phoneNumber);
-    localStorage.setItem("registeredPassword",password);
-
-    // Optional: Redirect to seller profile after signup
-    window.location.href = '/loginpage'; // or use useNavigate() if you're using react-router-dom v6+
-
-  } catch (err) {
-    console.error('Signup error:', err);
-    alert('Failed to connect to server');
-  }
-};
+  };
 
   return (
     <div className="signup-page">
@@ -106,7 +110,6 @@ const handleSubmit = async (e) => {
                 />
               </div>
 
-
               <div className="input-group">
                 <input
                   type="email"
@@ -133,7 +136,7 @@ const handleSubmit = async (e) => {
             </form>
 
             <p className="login-text">
-               <Link to="/loginpage"> Already have an account? Log in</Link>
+              <Link to="/loginpage">Already have an account? Log in</Link>
             </p>
           </div>
         </div>
