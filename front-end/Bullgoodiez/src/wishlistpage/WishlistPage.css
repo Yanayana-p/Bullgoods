@@ -1,65 +1,81 @@
-.wishlist-page {
-  padding: 60px 30px;
+.wishlist-container {
   max-width: 1200px;
-  margin: auto;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-.wishlist-page h2 {
+.wishlist-container h1 {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
+  color: #333;
 }
 
-.empty-message {
-  text-align: center;
-  color: #888;
-  font-size: 18px;
-}
-
-.wishlist-grid {
+.wishlist-items {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .wishlist-item {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
 }
 
-.wishlist-image {
+.wishlist-item:hover {
+  transform: translateY(-5px);
+}
+
+.item-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
 }
 
-.wishlist-info h3 {
-  margin: 0;
-  font-size: 18px;
+.item-details {
+  padding: 1rem;
 }
 
-.wishlist-info p {
+.item-details h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.price {
+  color: #e44d26;
   font-weight: bold;
-  color: #4caf50;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
 }
 
 .remove-btn {
-  margin-top: 10px;
-  padding: 6px 12px;
-  background-color: #ff4d4f;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #dc3545;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
   transition: background-color 0.2s ease;
+  margin-top: 1rem;
 }
 
 .remove-btn:hover {
-  background-color: #ae586c;
+  background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+  .wishlist-items {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
 }

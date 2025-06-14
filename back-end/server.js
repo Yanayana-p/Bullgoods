@@ -30,6 +30,9 @@ app.use('/api/user', userRoutes); // now you can call /api/user/update-profile
 const productRoutes = require('./routes/productRoutes');
 app.use('/api/products', productRoutes);
 
+const wishlistRoutes = require('./routes/wishlistRoutes');
+app.use('/api/wishlist', wishlistRoutes);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

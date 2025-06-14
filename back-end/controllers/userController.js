@@ -81,10 +81,9 @@ const setSellerRole = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM users');
-
-    const users = rows.map(({ password, ...user }) => user); // Remove passwords from response
-    return res.json({ users });
-
+    // For development/testing: include password in the response
+    console.log('Fetched users from DB (with password):', rows);
+    return res.json({ users: rows });
   } catch (error) {
     console.error('Get All Users Error:', error);
     return res.status(500).json({ message: 'Database error while retrieving users.' });

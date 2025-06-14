@@ -30,6 +30,22 @@ CREATE TABLE products (
   FOREIGN KEY (seller_id) REFERENCES users(student_id)
 );
 
+-- Set products table auto_increment to start at 11
+ALTER TABLE products AUTO_INCREMENT = 11;
+
+-- Wishlist table
+CREATE TABLE wishlist (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(20) NOT NULL,
+  user_firstname VARCHAR(50) NOT NULL,
+  user_lastname VARCHAR(50) NOT NULL,
+  product_id INT NOT NULL,
+  product_name VARCHAR(255) NOT NULL,
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(student_id),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
 -- Admin login table
 CREATE TABLE IF NOT EXISTS adminlogin (
   id INT AUTO_INCREMENT PRIMARY KEY,

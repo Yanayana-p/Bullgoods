@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Pproduct.css';
 import { useParams } from 'react-router-dom'; // ✅ Get ID from route
-import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 import { useProducts } from '../context/ProductContext'; // ✅ Import your context
+import { useWishlist } from '../context/WishlistContext'; // <-- Import wishlist context
 
 const sampleProducts = [
   { id: 1, name: 'Strawberry Cake', category: 'Food', price: 100, description: 'Tasty layered cake with fresh strawberries and cream. Made with love...', image: '/product1.jpg' },
@@ -20,12 +21,14 @@ const sampleProducts = [
 function Pproduct() {
   const { id } = useParams();
   const productId = Number(id);
-  const { products: addedProducts } = useProducts(); // ✅ Get added products from context
+  const { products: addedProducts } = useProducts();
+  const { user } = useAuth();
   const [product, setProduct] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const { addToWishlist } = useWishlist();
+  const [popupMessage, setPopupMessage] = useState('');
+  const { addToWishlist } = useWishlist(); // <-- Use wishlist context
 
-  const allProducts = [...sampleProducts, ...addedProducts]; // ✅ Combine both sources
+  const allProducts = [...sampleProducts, ...addedProducts];
 
   useEffect(() => {
     async function fetchProduct() {
@@ -55,19 +58,31 @@ function Pproduct() {
   // Get seller name from DB or fallback
   const sellerName = product.seller_name || 'Unknown Seller';
 
-  const handleAddToWishlist = () => {
-    addToWishlist(product);
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 2000);
+  const handleAddToWishlist = async () => {
+    if (!user) {
+      setPopupMessage('Please log in to add items to your wishlist');
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 2000);
+      return;
+    }
+    try {
+      await addToWishlist(product); // Use context function
+      setPopupMessage('✅ Added to wishlist!');
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 2000);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+      setPopupMessage('❌ Failed to add to wishlist');
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 2000);
+    }
   };
 
   return (
     <div className="page-container">
       {showPopup && (
         <div className="popup-toast">
-          ✅ Added to wishlist!
+          {popupMessage}
         </div>
       )}
       <div className="product-container">

@@ -39,7 +39,10 @@ function Pnavbar() {
           <li><a href="#developers" className={activeSection === 'developers' ? 'active' : ''}>About Us</a></li>
           <li><a href="#footer" className={activeSection === 'footer' ? 'active' : ''}>Contact Us</a></li>
         </ul>
-        <button className="navbar-button" onClick={() => navigate('/firstpage')}>
+        <button className="navbar-button" onClick={() => {
+          navigate('/firstpage');
+          window.location.reload();
+        }}>
           Back
         </button>
 
