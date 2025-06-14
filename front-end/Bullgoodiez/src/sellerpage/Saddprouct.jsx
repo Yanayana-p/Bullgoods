@@ -31,8 +31,8 @@ export default function AddProductPage() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
-      setFirstName(user.firstName || '');
-      setLastName(user.lastName || '');
+      setFirstName(user.first_name || user.firstName || '');
+      setLastName(user.last_name || user.lastName || '');
     }
   }, []);
 
@@ -128,9 +128,7 @@ export default function AddProductPage() {
           <h2>Add New Product</h2>
           <div className="action-buttons">
             <button className="add-product" onClick={handleAddProduct}>Add Product</button>
-            <button className="save-draft" onClick={handleRemoveProduct}>
-  Remove Product
-</button>
+            <button className="save-draft" onClick={handleRemoveProduct}>Remove Product</button>
           </div>
         </div>
 

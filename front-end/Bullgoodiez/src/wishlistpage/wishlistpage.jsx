@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './wishlistpage.css';
 import Pnavbar from '../dproductpage/Pnavbar';
+import { useWishlist } from '../context/WishlistContext';
 
 function WishlistPage() {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user } = useAuth();
+  const { removeFromWishlist, refreshWishlist } = useWishlist();
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -51,11 +53,13 @@ function WishlistPage() {
       }
 
       setWishlistItems(prevItems => prevItems.filter(item => item.id !== wishlistId));
+      window.location.reload(); // Refresh the page after removal
     } catch (err) {
       console.error('Error removing from wishlist:', err);
       setError(err.message || 'Failed to remove item from wishlist');
     }
   };
+
 
   if (loading) return <div className="loading">Loading your wishlist...</div>;
   if (error) return <div className="error">Error: {error}</div>;

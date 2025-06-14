@@ -6,6 +6,7 @@ const Apage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [users, setUsers] = useState([]);
   const [wishlists, setWishlists] = useState([]);
+  const [groupedWishlists, setGroupedWishlists] = useState([]);
   const [view, setView] = useState('user'); // 'user', 'wishlist', or 'products'
   const [showPasswords, setShowPasswords] = useState({});
   const [showAllPasswords, setShowAllPasswords] = useState(false);
@@ -58,7 +59,27 @@ const Apage = () => {
       if (!response.ok) throw new Error('Failed to fetch wishlists');
       const data = await response.json();
       setWishlists(data);
+      // Group by user
+      const grouped = {};
+      data.forEach(item => {
+        if (!grouped[item.student_id]) {
+          grouped[item.student_id] = {
+            student_id: item.student_id,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            wishlist: []
+          };
+        }
+        grouped[item.student_id].wishlist.push({
+          product_name: item.product_name,
+          price: item.price,
+          image_url: item.image_url
+        });
+      });
+      setGroupedWishlists(Object.values(grouped));
     } catch (err) {
+      setWishlists([]);
+      setGroupedWishlists([]);
       alert(err.message);
     }
   };
@@ -66,6 +87,9 @@ const Apage = () => {
   const togglePassword = (userId) => {
     setShowPasswords(prev => ({ ...prev, [userId]: !prev[userId] }));
   };
+
+  // Find the max number of wishlist products for any user
+  const maxWishlistLength = groupedWishlists.reduce((max, user) => Math.max(max, user.wishlist.length), 0);
 
   const renderTableHeaders = () => {
     switch (view) {
@@ -75,9 +99,7 @@ const Apage = () => {
             <th>User ID</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Image</th>
+            <th>Wishlist</th>
           </>
         );
       case 'products':
@@ -117,18 +139,30 @@ const Apage = () => {
   const renderTableRows = () => {
     switch (view) {
       case 'wishlist':
-        return wishlists.length === 0 ? (
-          <tr><td colSpan={6}>No wishlist entries found.</td></tr>
+        return groupedWishlists.length === 0 ? (
+          <tr><td colSpan={4}>No wishlist entries found.</td></tr>
         ) : (
-          wishlists.map((item, index) => (
+          groupedWishlists.map((user, index) => (
             <tr key={index}>
-              <td>{item.student_id}</td>
-              <td>{item.first_name}</td>
-              <td>{item.last_name}</td>
-              <td>{item.product_name}</td>
-              <td>₱{item.price}</td>
+              <td>{user.student_id}</td>
+              <td>{user.first_name}</td>
+              <td>{user.last_name}</td>
               <td>
-                <img src={item.image_url ? `http://localhost:5000/uploads/${item.image_url}` : '/default-product.jpg'} alt={item.product_name} style={{ width: 60, height: 60, objectFit: 'cover' }} />
+                {user.wishlist.length === 0 ? (
+                  <span style={{ color: '#888' }}>No products</span>
+                ) : (
+                  <ul style={{ paddingLeft: 16, margin: 0 }}>
+                    {user.wishlist.map((item, idx) => (
+                      <li key={idx} style={{ marginBottom: 6 }}>
+                        <span>{item.product_name}</span>
+                        <span style={{ marginLeft: 8, color: '#888' }}>₱{item.price}</span>
+                        {item.image_url && (
+                          <img src={`http://localhost:5000/uploads/${item.image_url}`} alt={item.product_name} style={{ width: 40, height: 40, objectFit: 'cover', marginLeft: 8, verticalAlign: 'middle' }} />
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </td>
             </tr>
           ))
