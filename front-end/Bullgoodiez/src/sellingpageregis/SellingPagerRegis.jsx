@@ -13,6 +13,22 @@ function SellingPageRegis() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // Check if user is already a seller and redirect if so
+  useEffect(() => {
+    const storedUserStr = localStorage.getItem("user");
+    if (storedUserStr) {
+      const storedUser = JSON.parse(storedUserStr);
+      if (
+        storedUser.isSeller === true ||
+        storedUser.is_seller === true ||
+        storedUser.role === 'seller'
+      ) {
+        navigate("/sellerpage");
+        return;
+      }
+    }
+  }, [navigate]);
+
   useEffect(() => {
     const fetchUserFromDB = async () => {
       try {

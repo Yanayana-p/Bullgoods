@@ -11,6 +11,11 @@ function Fnavbar1() {
   const navigate = useNavigate();
   const { user, logout, loading } = useAuth();
 
+  // Helper function to check if user is a seller
+  const isUserSeller = () => {
+    return user?.isSeller === true || user?.is_seller === true || user?.role === 'seller';
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 100);
@@ -36,7 +41,7 @@ function Fnavbar1() {
   };
 
   const handleIconButtonClick = () => {
-    if (user?.isSeller) {
+    if (isUserSeller()) {
       navigate('/sellerpage');
     } else {
       navigate('/userpage');
@@ -46,7 +51,7 @@ function Fnavbar1() {
   const handleStartSellingClick = () => {
     if (!user) {
       navigate('/loginpage');
-    } else if (user?.isSeller) {
+    } else if (isUserSeller()) {
       navigate('/addproduct');
     } else {
       navigate('/firstpage/start-selling');
@@ -73,9 +78,8 @@ function Fnavbar1() {
         </button>
 
         <button className="start-selling-button" onClick={handleStartSellingClick}>
-          {user?.isSeller ? 'Start Selling' : 'Become a Seller'}
+          {isUserSeller() ? 'Start Selling' : 'Become a Seller'}
         </button>
-
 
         {!loading && user ? (
           <div className="navbar-user" ref={dropdownRef}>
