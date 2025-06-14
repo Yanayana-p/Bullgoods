@@ -70,9 +70,28 @@ const getAllWishlists = async (req, res) => {
   }
 };
 
+const updateWishlistItem = async (req, res) => {
+  const { id } = req.params;
+  const { product_name, price } = req.body;
+  try {
+    // Update the wishlist item by id
+    const [result] = await pool.query(
+      'UPDATE wishlist SET product_name = ?, price = ? WHERE id = ?',
+      [product_name, price, id]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Wishlist item not found' });
+    }
+    res.json({ message: 'Wishlist item updated successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating wishlist item', error: err.message });
+  }
+};
+
 module.exports = {
   addToWishlist,
   getWishlistByUser,
   removeFromWishlist,
-  getAllWishlists
+  getAllWishlists,
+  updateWishlistItem
 }; 

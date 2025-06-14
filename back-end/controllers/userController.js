@@ -90,9 +90,86 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// -------------------- UPDATE USER --------------------
+const updateUser = async (req, res) => {
+  const { student_id } = req.params;
+  const { first_name, last_name, phone_number, email, role } = req.body;
+
+  if (!student_id) {
+    return res.status(400).json({ message: 'Student ID is required.' });
+  }
+
+  try {
+    const [result] = await pool.query(
+      `UPDATE users SET first_name = ?, last_name = ?, phone_number = ?, email = ?, role = ? WHERE student_id = ?`,
+      [first_name, last_name, phone_number, email, role, student_id]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    // Also update wishlist and products tables
+    await pool.query(
+      `UPDATE wishlist SET user_firstname = ?, user_lastname = ? WHERE user_id = ?`,
+      [first_name, last_name, student_id]
+    );
+    await pool.query(
+      `UPDATE products SET seller_name = ? WHERE seller_id = ?`,
+      [`${first_name} ${last_name}`, student_id]
+    );
+    const [updatedRows] = await pool.query('SELECT * FROM users WHERE student_id = ?', [student_id]);
+    return res.json({ message: 'User updated successfully.', user: updatedRows[0] });
+  } catch (error) {
+    console.error('Update User Error:', error);
+    return res.status(500).json({ message: 'Database error while updating user.' });
+  }
+};
+
+// Add a trigger to update wishlist and products tables when a user is updated
+const createUpdateTrigger = async () => {
+  try {
+    await pool.query(`DROP TRIGGER IF EXISTS after_user_update;`);
+    await pool.query(`
+      CREATE TRIGGER after_user_update
+      AFTER UPDATE ON users
+      FOR EACH ROW
+      BEGIN
+        UPDATE wishlist SET user_firstname = NEW.first_name, user_lastname = NEW.last_name WHERE user_id = NEW.student_id;
+        UPDATE products SET seller_name = CONCAT(NEW.first_name, ' ', NEW.last_name) WHERE seller_id = NEW.student_id;
+      END;
+    `);
+    console.log('Trigger created successfully.');
+  } catch (error) {
+    console.error('Error creating trigger:', error);
+  }
+};
+
+// Call the function to create the trigger
+createUpdateTrigger();
+
+// -------------------- DELETE USER --------------------
+const deleteUser = async (req, res) => {
+  const { student_id } = req.params;
+  try {
+    // Delete related wishlist entries
+    await pool.query('DELETE FROM wishlist WHERE user_id = ?', [student_id]);
+    // Delete related products
+    await pool.query('DELETE FROM products WHERE seller_id = ?', [student_id]);
+    // Now delete the user
+    const [result] = await pool.query('DELETE FROM users WHERE student_id = ?', [student_id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error deleting user', error: err.message });
+  }
+};
+
 // -------------------- EXPORTS --------------------
 module.exports = {
   registerUser,
   setSellerRole,
-  getAllUsers
+  getAllUsers,
+  updateUser,
+  deleteUser
 };
